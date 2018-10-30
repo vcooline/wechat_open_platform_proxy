@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = WechatOpenPlatformProxy::VERSION
   s.authors     = ["Andersen Fan"]
   s.email       = ["as181920@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of WechatOpenPlatformProxy."
-  s.description = "TODO: Description of WechatOpenPlatformProxy."
+  s.homepage    = ""
+  s.summary     = "Wechat open platform proxy engine"
+  s.description = "api proxies for official api"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]

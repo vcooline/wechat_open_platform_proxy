@@ -1,14 +1,13 @@
 # WechatOpenPlatformProxy
-Short description and motivation.
+微信开放平台代理Engine
 
 ## Usage
-How to use my plugin.
 
 ## Installation
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'wechat_open_platform_proxy'
+gem 'wechat_open_platform_proxy', git: "git@github.com:vcooline/wechat_open_platform_proxy.git", branch: "master"
 ```
 
 And then execute:
