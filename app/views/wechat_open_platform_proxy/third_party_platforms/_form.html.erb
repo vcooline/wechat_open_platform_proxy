@@ -1,0 +1,17 @@
+<%= form_with(model: third_party_platform, local: true) do |form| %>
+  <% if third_party_platform.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(third_party_platform.errors.count, "error") %> prohibited this third_party_platform from being saved:</h2>
+
+      <ul>
+      <% third_party_platform.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Wechat Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @wechat_users.each do |wechat_user| %>
+      <tr>
+        <td><%= link_to 'Show', wechat_user %></td>
+        <td><%= link_to 'Edit', edit_wechat_user_path(wechat_user) %></td>
+        <td><%= link_to 'Destroy', wechat_user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Wechat User', new_wechat_user_path %>
