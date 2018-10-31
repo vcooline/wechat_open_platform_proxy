@@ -2,6 +2,7 @@ class CreateWechatOpenPlatformProxyThirdPartyPlatforms < ActiveRecord::Migration
   def change
     create_table :owx_third_party_platforms do |t|
       t.string :uid, index: {unique: true}
+      t.string :name
       t.string :app_id, index: {unique: true}
       t.string :app_secret
 

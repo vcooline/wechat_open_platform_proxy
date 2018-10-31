@@ -1,4 +1,7 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_third_party_platform_path(@third_party_platform) %> |
+<p>UID: <%= @third_party_platform.uid %></p>
+<p>Name: <%= @third_party_platform.name %></p>
+<p>App ID: <%= @third_party_platform.app_id %></p>
+
 <%= link_to 'Back', third_party_platforms_path %>
