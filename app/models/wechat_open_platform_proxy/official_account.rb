@@ -2,8 +2,8 @@ module WechatOpenPlatformProxy
   class OfficialAccount < ApplicationRecord
     belongs_to :third_party_platform
 
-    validates :app_id, presence: true, uniqueness: true
-    validates :original_id, uniqueness: true, allow_nil: true
+    validates_uniqueness_of :app_id, scope: :third_party_platform, allow_nil: false
+    validates_uniqueness_of :original_id, scope: :third_party_platform, allow_nil: true
 
     scope :mini_program, -> { where.not(mini_program_info: nil) }
 

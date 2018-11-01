@@ -5,6 +5,8 @@
 
 * 第三方平台
 
+  Mount engine in host rails routes: mount WechatOpenPlatformProxy::Engine, at: "/owx"
+
   登录开放平台https://open.weixin.qq.com，进入管理中心-第三方平台
 
   创建信息：

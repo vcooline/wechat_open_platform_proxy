@@ -12,7 +12,7 @@ module WechatOpenPlatformProxy
 
     private
       def set_third_party_platform
-        @third_party_platform = ThirdPartyPlatform.find_by!(uid: params[:uid])
+        @third_party_platform = ThirdPartyPlatform.find_by!(uid: params[:third_party_platform_uid])
       end
   end
 end

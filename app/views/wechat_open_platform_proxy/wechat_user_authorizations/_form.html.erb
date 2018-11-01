@@ -1,0 +1,17 @@
+<%= form_with(model: wechat_user_authorization, local: true) do |form| %>
+  <% if wechat_user_authorization.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(wechat_user_authorization.errors.count, "error") %> prohibited this wechat_user_authorization from being saved:</h2>
+
+      <ul>
+      <% wechat_user_authorization.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>微信开放平台绑定授权</title>
+    <style type="text/css">
+      body {padding:0; margin:0;}
+      div, p, img, span {margin:0; padding:0; border:none;}
+      .message {text-align: center; position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%,-50%);transform: translate(-50%,-50%);}
+    </style>
+  </head>
+  <body>
+    <div id="body-container">
+      <div class="message">
+        <%= link_to "微信开放平台绑定授权中，请稍候...", @authorize_url, id: "authorize_url" %>
+      </div>
+    </div>
+    <script type="text/javascript">
+      document.getElementById("bind_url").click();
+    </script>
+  </body>
+</html>

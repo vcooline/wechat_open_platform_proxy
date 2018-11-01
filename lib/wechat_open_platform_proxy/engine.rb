@@ -1,3 +1,7 @@
+require "kaminari"
+require "jbuilder"
+require "faraday"
+
 module WechatOpenPlatformProxy
   class Engine < ::Rails::Engine
     isolate_namespace WechatOpenPlatformProxy
