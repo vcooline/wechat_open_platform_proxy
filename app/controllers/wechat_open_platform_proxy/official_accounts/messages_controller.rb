@@ -2,61 +2,22 @@ require_dependency "wechat_open_platform_proxy/application_controller"
 
 module WechatOpenPlatformProxy
   class OfficialAccounts::MessagesController < ApplicationController
-    before_action :set_official_accounts_message, only: [:show, :edit, :update, :destroy]
+    before_action :set_third_party_platform, :set_official_account
 
-    # GET /official_accounts/messages
-    def index
-      @official_accounts_messages = OfficialAccounts::Message.all
-    end
-
-    # GET /official_accounts/messages/1
-    def show
-    end
-
-    # GET /official_accounts/messages/new
-    def new
-      @official_accounts_message = OfficialAccounts::Message.new
-    end
-
-    # GET /official_accounts/messages/1/edit
-    def edit
-    end
-
-    # POST /official_accounts/messages
     def create
-      @official_accounts_message = OfficialAccounts::Message.new(official_accounts_message_params)
-
-      if @official_accounts_message.save
-        redirect_to @official_accounts_message, notice: 'Message was successfully created.'
-      else
-        render :new
-      end
-    end
-
-    # PATCH/PUT /official_accounts/messages/1
-    def update
-      if @official_accounts_message.update(official_accounts_message_params)
-        redirect_to @official_accounts_message, notice: 'Message was successfully updated.'
-      else
-        render :edit
-      end
-    end
-
-    # DELETE /official_accounts/messages/1
-    def destroy
-      @official_accounts_message.destroy
-      redirect_to official_accounts_messages_url, notice: 'Message was successfully destroyed.'
+      message_body = request.body.tap{|b| b.rewind }.read
+      reply_body = OfficialAccountMessageHandler.new(@official_account).perform(message_body, params)
+      logger.info "OfficialAccountMessageHandler reply body: #{reply_body}"
+      reply_body.present? ? render(xml: ThirdPartyPlatformMessageEncryptor.new(@third_party_platform).encrypt_message(reply_body)) : render(plain: "")
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_official_accounts_message
-        @official_accounts_message = OfficialAccounts::Message.find(params[:id])
+      def set_third_party_platform
+        @third_party_platform = ThirdPartyPlatform.find_by!(uid: params[:third_party_platform_uid])
       end
 
-      # Only allow a trusted parameter "white list" through.
-      def official_accounts_message_params
-        params.fetch(:official_accounts_message, {})
+      def set_official_account
+        @official_account = @third_party_platform.find_or_create_by(app_id: params[:official_account_app_id])
       end
   end
 end

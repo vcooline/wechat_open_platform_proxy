@@ -10,7 +10,8 @@ module WechatOpenPlatformProxy
       authorize_params = {
         component_appid: @third_party_platform.app_id,
         pre_auth_code: ThirdPartyPlatformCacheStore.new(@third_party_platform).fetch_pre_auth_code(params[:force_renew].presence),
-        redirect_uri: third_party_platform_official_account_authorization_url(@third_party_platform, redirect_url: redirect_url)
+        redirect_uri: third_party_platform_official_account_authorization_url(@third_party_platform, redirect_url: redirect_url),
+        auth_type: params[:auth_type].presence || 3
       }
       @authorize_url = "https://mp.weixin.qq.com/cgi-bin/componentloginpage?#{authorize_params.to_query}#wechat_redirect"
       render layout: false

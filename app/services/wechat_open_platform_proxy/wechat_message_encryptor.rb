@@ -12,10 +12,25 @@ module WechatOpenPlatformProxy
       msg_decrypt[20..msg_decrypt.rindex('>')]
     end
 
-    def encrypt_message
+    def encrypt_message(original_xml, message_encryption_key, app_id)
+      timestamp = Time.now.to_i.to_s
+      nonce = SecureRandom.hex(5)
+      msg_encrypt = encrypt_content(original_xml, message_encryption_key, app_id)
+      msg_signature = Digest::SHA1.hexdigest([messages_checking_token, timestamp, nonce, msg_encrypt].sort.join)
+      <<~END_TEXT_AREA
+        <xml>
+          <Encrypt><![CDATA[#{msg_encrypt}]]></Encrypt>
+          <MsgSignature>#{msg_signature}</MsgSignature>
+          <TimeStamp>#{timestamp}</TimeStamp>
+          <Nonce>#{nonce}</Nonce>
+        </xml>
+      END_TEXT_AREA
     end
 
-    def encrypt_content
+    def encrypt_content(msg_decrypt, message_encryption_key, app_id)
+      msg = msg_decrypt.force_encoding("ascii-8bit")
+      msg = kcs7_encoder "#{SecureRandom.hex(8)}#{[msg.size].pack('N')}#{msg}#{app_id}"
+      aes_encrypt(msg, message_encryption_key)
     end
 
     private
