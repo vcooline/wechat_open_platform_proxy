@@ -6,7 +6,7 @@ module WechatOpenPlatformProxy
     validates_presence_of :messages_checking_token, :message_encryption_key
 
     def to_param
-      app_id
+      uid
     end
   end
 end
