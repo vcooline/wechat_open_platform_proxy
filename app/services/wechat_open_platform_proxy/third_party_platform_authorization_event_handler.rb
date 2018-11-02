@@ -2,8 +2,8 @@ module WechatOpenPlatformProxy
   class ThirdPartyPlatformAuthorizationEventHandler
     attr_reader :third_party_platform
 
-    def initialize(third_party_platform)
-      @third_party_platform = third_party_platform
+    def initialize(platform)
+      @third_party_platform = platform
     end
 
     def perform(message_body, params)
