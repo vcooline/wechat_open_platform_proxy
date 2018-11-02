@@ -17,7 +17,7 @@ module WechatOpenPlatformProxy
       end
 
       def set_official_account
-        @official_account = @third_party_platform.official_accounts.find_or_create_by(app_id: params[:official_account_app_id])
+        @official_account = @third_party_platform.official_accounts.find_or_initialize_by(app_id: params[:official_account_app_id])
       end
   end
 end
