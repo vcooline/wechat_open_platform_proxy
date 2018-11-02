@@ -12,7 +12,7 @@ module WechatOpenPlatformProxy
       msg_decrypt[20..msg_decrypt.rindex('>')]
     end
 
-    def encrypt_message(original_xml, message_encryption_key, app_id)
+    def encrypt_message(original_xml, messages_checking_token, message_encryption_key, app_id)
       timestamp = Time.now.to_i.to_s
       nonce = SecureRandom.hex(5)
       msg_encrypt = encrypt_content(original_xml, message_encryption_key, app_id)
