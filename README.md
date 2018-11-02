@@ -19,7 +19,7 @@
 
     消息加解密Key: 同third_party_platform的message_encryption_key设置
 
-    消息与事件接收URL: http://example.com/owx/official_accounts/$APPID$/messages
+    消息与事件接收URL: http://example.com/owx/third_party_platforms/:third_party_platform_uid/official_accounts/$APPID$/messages
 
 
 ## Installation
