@@ -28,7 +28,7 @@ module WechatOpenPlatformProxy
       }
       resp = Faraday.get "https://api.weixin.qq.com/sns/userinfo?#{request_params.to_query}"
       Rails.logger.info "WechatUserAuthorizeService get_user_info resp: #{resp.body}"
-      JSON.parse(resp.body)
+      JSON.parse(resp.body).reverse_merge(base_info)
     end
   end
 end
