@@ -10,6 +10,7 @@ module WechatOpenPlatformProxy
     end
 
     def show
+      OfficialAccountAuthorizeService.new(@third_party_platform).refresh_account_info(@official_account.app_id) if params[:force_refresh].present?
     end
 
     private
