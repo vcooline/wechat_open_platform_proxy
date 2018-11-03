@@ -14,9 +14,9 @@
   <tbody>
     <% @official_accounts.each do |official_account| %>
       <tr>
-        <td><%= link_to official_account.app_id, official_account %></td>
+        <td><%= link_to official_account.app_id, [@third_party_platform, official_account] %></td>
         <td><%= official_account.nick_name %></td>
-        <td><%= link_to 'Show', official_account %></td>
+        <td><%= link_to 'Show', [@third_party_platform, official_account] %></td>
       </tr>
     <% end %>
   </tbody>
