@@ -89,7 +89,7 @@ module WechatOpenPlatformProxy
       def handle_auth_failure
         respond_to do |format|
           format.html { render plain: "权限不足，请联系管理员。", status: :forbidden }
-          format.json { render json: {error: {message: "Unauthenticated"}}, status: :unpermitted }
+          format.json { render json: {error: {message: "Unauthenticated"}}, status: :forbidden }
         end
       end
 
