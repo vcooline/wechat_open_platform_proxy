@@ -11,6 +11,7 @@ module WechatOpenPlatformProxy
 
     included do
       rescue_from AuthenticateFailError, with: :handle_auth_failure
+      rescue_from NotAllowedRemoteIpError, with: :handle_remote_ip_not_allowed
     end
 
     module ClassMethods
@@ -86,7 +87,17 @@ module WechatOpenPlatformProxy
       end
 
       def handle_auth_failure
-        render json: {error: {message: "Unauthenticated"}}, status: :unpermitted
+        respond_to do |format|
+          format.html { render plain: "权限不足，请联系管理员。", status: :forbidden }
+          format.json { render json: {error: {message: "Unauthenticated"}}, status: :unpermitted }
+        end
+      end
+
+      def handle_remote_ip_not_allowed
+        respond_to do |format|
+          format.html { render plain: "请确认访问客户端已加入IP白名单", status: :forbidden }
+          format.json { render json: {error: {message: "Not in ip whitelist"}}, status: :forbidden }
+        end
       end
   end
 end
