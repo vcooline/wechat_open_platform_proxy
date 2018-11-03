@@ -14,6 +14,7 @@ WechatOpenPlatformProxy::Engine.routes.draw do
     resources :official_accounts, param: :app_id, only: [:index, :show] do
       scope module: :official_accounts do
         resources :messages, only: [:create]
+        resources :template_messages, only: [:create]
         get "jssdk/wx_config", "jssdk/card_wx_config", defaults: {format: :json}
       end
 
