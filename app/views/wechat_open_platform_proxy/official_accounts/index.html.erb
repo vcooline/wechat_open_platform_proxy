@@ -7,6 +7,7 @@
     <tr>
       <th>app_id</th>
       <th>Name</th>
+      <th>Alias</th>
       <th>操作</th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= link_to official_account.app_id, [@third_party_platform, official_account] %></td>
         <td><%= official_account.nick_name %></td>
+        <td><%= official_account.alias %></td>
         <td><%= link_to 'Show', [@third_party_platform, official_account] %></td>
       </tr>
     <% end %>

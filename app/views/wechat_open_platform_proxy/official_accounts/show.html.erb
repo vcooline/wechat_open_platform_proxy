@@ -1,6 +1,17 @@
 <p id="notice"><%= notice %></p>
 
-<p>app_id: <%= @official_account.app_id %></p>
+<p>App id: <%= @official_account.app_id %></p>
 <p>Name: <%= @official_account.nick_name %></p>
+<p>Original id: <%= @official_account.original_id %></p>
+<p>Head img: <%= @official_account.head_img %></p>
+<p>Qrcode url: <%= @official_account.qrcode_url %></p>
+<p>Principal name: <%= @official_account.principal_name %></p>
+<p>Service type info: <%= @official_account.service_type_info.to_json %></p>
+<p>Verify_type_info: <%= @official_account.verify_type_info.to_json %></p>
+<p>Business info: <%= @official_account.business_info.to_json %></p>
+<p>Alias: <%= @official_account.alias %></p>
+<p>Signature: <%= @official_account.signature %></p>
+<p>Mini program info: <%= @official_account.mini_program_info.to_json %></p>
+<p>Func info: <%= @official_account.func_info.to_json %></p>
 
 <%= link_to 'Back', third_party_platform_official_accounts_path(@third_party_platform) %>
