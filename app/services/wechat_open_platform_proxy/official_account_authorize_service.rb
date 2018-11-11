@@ -11,43 +11,13 @@ module WechatOpenPlatformProxy
 
     def get_account_info(auth_code)
       authorization_info = get_authorization_info(auth_code)
-      authorizer_info = get_authorizer_info(authorization_info["authorizer_appid"])
-      third_party_platform.official_accounts.find_or_initialize_by(app_id: authorization_info["authorizer_appid"]).tap do |official_account|
-        official_account.update(
-          refresh_token: authorization_info["authorizer_refresh_token"],
-          original_id: authorizer_info["user_name"],
-          nick_name: authorizer_info["nick_name"],
-          head_img: authorizer_info["head_img"],
-          qrcode_url: authorizer_info["qrcode_url"],
-          principal_name: authorizer_info["principal_name"],
-          service_type_info: authorizer_info["service_type_info"],
-          verify_type_info: authorizer_info["verify_type_info"],
-          business_info: authorizer_info["business_info"],
-          alias: authorizer_info["alias"],
-          signature: authorizer_info["signature"],
-          mini_program_info: authorizer_info["MiniProgramInfo"],
-          func_info: authorization_info["func_info"]
-        )
-      end
+      authorizer_info = get_authorizer_info(authorization_info["authorizer_appid"])["authorizer_info"]
+      set_official_account(authorization_info, authorizer_info)
     end
 
     def refresh_account_info(app_id)
-      authorizer_info = get_authorizer_info(app_id)
-      third_party_platform.official_accounts.find_or_initialize_by(app_id: app_id).tap do |official_account|
-        official_account.update(
-          original_id: authorizer_info["user_name"],
-          nick_name: authorizer_info["nick_name"],
-          head_img: authorizer_info["head_img"],
-          qrcode_url: authorizer_info["qrcode_url"],
-          principal_name: authorizer_info["principal_name"],
-          service_type_info: authorizer_info["service_type_info"],
-          verify_type_info: authorizer_info["verify_type_info"],
-          business_info: authorizer_info["business_info"],
-          alias: authorizer_info["alias"],
-          signature: authorizer_info["signature"],
-          mini_program_info: authorizer_info["MiniProgramInfo"],
-        )
-      end
+      authorizer_info, authorization_info = get_authorizer_info(app_id)
+      set_official_account(authorization_info, authorizer_info)
     end
 
     private
@@ -71,7 +41,27 @@ module WechatOpenPlatformProxy
 
         resp_info = JSON.parse(resp.body)
         raise AuthorizerInfoError unless resp_info["errcode"].to_i.zero?
-        resp_info["authorizer_info"]
+        resp_info
+      end
+
+      def set_official_account(authorization_info, authorizer_info)
+        third_party_platform.official_accounts.find_or_initialize_by(app_id: authorization_info["authorizer_appid"]).tap do |official_account|
+          official_account.update(
+            refresh_token: authorization_info["authorizer_refresh_token"],
+            original_id: authorizer_info["user_name"],
+            nick_name: authorizer_info["nick_name"],
+            head_img: authorizer_info["head_img"],
+            qrcode_url: authorizer_info["qrcode_url"],
+            principal_name: authorizer_info["principal_name"],
+            service_type_info: authorizer_info["service_type_info"],
+            verify_type_info: authorizer_info["verify_type_info"],
+            business_info: authorizer_info["business_info"],
+            alias: authorizer_info["alias"],
+            signature: authorizer_info["signature"],
+            mini_program_info: authorizer_info["MiniProgramInfo"],
+            func_info: authorization_info["func_info"]
+          )
+        end
       end
   end
 end
