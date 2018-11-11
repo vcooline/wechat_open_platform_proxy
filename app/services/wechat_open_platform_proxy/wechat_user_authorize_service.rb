@@ -34,7 +34,7 @@ module WechatOpenPlatformProxy
     def refresh_user_info(open_id)
       request_params = {
         access_token: OfficialAccountCacheStore.new(official_account).fetch_access_token,
-        open_id: open_id,
+        openid: open_id,
         lang: "zh_CN"
       }
       resp = Faraday.get "https://api.weixin.qq.com/cgi-bin/user/info?#{request_params.to_query}"
