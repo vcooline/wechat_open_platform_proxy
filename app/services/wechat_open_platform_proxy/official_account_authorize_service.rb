@@ -16,7 +16,7 @@ module WechatOpenPlatformProxy
     end
 
     def refresh_account_info(app_id)
-      authorizer_info, authorization_info = get_authorizer_info(app_id)
+      authorization_info, authorizer_info = get_authorizer_info(app_id).values_at("authorization_info", "authorizer_info")
       set_official_account(authorization_info, authorizer_info)
     end
 
