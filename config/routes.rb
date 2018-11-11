@@ -21,6 +21,8 @@ WechatOpenPlatformProxy::Engine.routes.draw do
       resource :wechat_user_authorization, only: [:new, :show] do
         get :open_id, :user_info, defaults: {format: :json}
       end
+
+      resources :wechat_users, param: :open_id, only: [:show]
     end
   end
 end

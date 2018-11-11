@@ -10,7 +10,7 @@ module WechatOpenPlatformProxy
     end
 
     def show
-      OfficialAccountAuthorizeService.new(@third_party_platform).refresh_account_info(@official_account.app_id) if params[:force_refresh].present?
+      @official_account = OfficialAccountAuthorizeService.new(@third_party_platform).refresh_account_info(@official_account.app_id) if params[:force_refresh].present?
     end
 
     private
@@ -19,7 +19,7 @@ module WechatOpenPlatformProxy
       end
 
       def set_official_account
-        @official_account = OfficialAccount.find_or_initialize_by(app_id: params[:app_id])
+        @official_account = @third_party_platform.official_accounts.find_or_initialize_by(app_id: params[:app_id])
       end
   end
 end
