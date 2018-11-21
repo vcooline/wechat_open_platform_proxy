@@ -21,6 +21,10 @@
 
     消息与事件接收URL: http://example.com/owx/third_party_platforms/:third_party_platform_uid/official_accounts/$APPID$/messages
 
+  API :
+
+    参见 API.md
+
 
 ## Installation
 Add this line to your application's Gemfile:

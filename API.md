@@ -1,0 +1,271 @@
+# 微信开放平台代理Engine
+
+## 参数说明
+
+  * third_party_platform_uid: 微信开放平台第三方应用唯一标识号
+
+  * official_account_app_id: 公众号/小程序的appid
+
+  * open_id: 微信用户对于公众号/小程序的身份标识
+
+  * 公众号: 泛指公众号和小程序
+
+### 公众号 绑定授权
+------
+* **URL**
+    /third_party_platforms/:third_party_platform_uid/official_account_authorization/new
+
+
+* **Method**
+    `URL Redirect`
+
+* **URL params**
+
+    **Required params**
+    None
+
+    **Optional params**
+    `redirect_url=[string]`
+
+* **Success Response**
+
+    **Code**
+    301
+
+    **Content**
+
+    `[redirect_url]?auth_code=xxx`
+
+*  **Sample**
+
+      Redirect `http://owx.example.com/third_party_platforms/:third_party_platform_uid/official_account_authorizations/new?redirect_url=[callback_redirect_url]`
+
+      Callback `callback_redirect_url?auth_code=[code]`
+
+### 公众号绑定授权后获取授权方信息
+------
+* **URL**
+    /third_party_platforms/:third_party_platform_uid/official_account_authorization/account_info
+
+* **Method**
+    `GET`
+
+* **URL params**
+
+    None
+
+* **Data params**
+
+    **Required params**
+    `
+    {
+      auth_code: [string]
+    }
+    `
+
+    **Optional params**
+    None
+
+* **Success Response**
+
+    * **Code**
+      200
+
+      **Content**
+
+      ```json
+      {
+        "app_id": "APPID",
+        "refresh_token": "FILLER",
+        "original_id": "FILLER",
+        "nick_name": "FILLER",
+        "head_img": "FILLER",
+        "qrcode_url": "FILLER",
+        "principal_name": "FILLER",
+        "service_type_info": "FILLER",
+        "verify_type_info": "FILLER",
+        "business_info": "FILLER",
+        "alias": "FILLER",
+        "signature": "FILLER",
+        "mini_program_info": "FILLER",
+        "func_info": "FILLER"
+      }
+      ```
+
+### 发送公众号模板消息
+------
+* **URL**
+    /third_party_platforms/:third_party_platform_uid/official_accounts/:official_account_app_id/template_messages
+
+* **Method**
+    `POST`
+
+* **URL params**
+
+    None
+
+* **Data params**
+
+    **Required params**
+    `
+    {
+      template_message: {
+        "touser":"OPENID",
+        "template_id":"ngqIpbwh8bUfcSsECmogfXcV14J0tQlEpBO27izEYtY",
+        "url":"http://weixin.qq.com/download",  
+        "miniprogram":{
+          "appid":"xiaochengxuappid12345",
+          "pagepath":"index?foo=bar"
+        },
+        "data":{
+           "first": {
+               "value":"恭喜你购买成功！",
+               "color":"#173177"
+           },
+           "keyword1":{
+               "value":"巧克力",
+               "color":"#173177"
+           },
+           "keyword2": {
+               "value":"39.8元",
+               "color":"#173177"
+           },
+           "keyword3": {
+               "value":"2014年9月22日",
+               "color":"#173177"
+           },
+           "remark":{
+               "value":"欢迎再次购买！",
+               "color":"#173177"
+           }
+        }
+      },
+    }
+    `
+
+    参见官方模板消息体格式: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277
+
+    **Optional params**
+    None
+
+### Wechat user oauth
+------
+* **URL**
+    /third_party_platforms/:third_party_platform_uid/official_accounts/:official_account_app_id/wechat_user_authorization/new
+
+* **Method**
+    `URL Redirect`
+
+* **URL params**
+
+    **Required params**
+    None
+
+    **Optional params**
+    `redirect_url=[string]&scope=[snsapi_base|snsapi_userinfo]`
+
+* **Success Response**
+
+    **Code**
+    301
+
+    **Content**
+
+    `[redirect_url]?code=xxx`
+
+*  **Sample**
+
+      Redirect `http://owx.example.com/third_party_platforms/:third_party_platform_uid/official_account_authorizations/:official_account_app_id/wechat_user_authorization/new?redirect_url=[callback_redirect_url]`
+
+      Callback `[callback_redirect_url]?code=[code]`
+
+### Wechat user oauth authorizer info
+------
+* **URL**
+    /third_party_platforms/:third_party_platform_uid/official_accounts/:official_account_app_id/wechat_user_authorization/[base_info|user_info]
+
+* **Method**
+    `GET`
+
+* **URL params**
+
+    None
+
+* **Data params**
+
+    **Required params**
+    `
+    {
+      code: [string]
+    }
+    `
+
+    **Optional params**
+    None
+
+* **Success Response**
+
+    * **Code**
+      200
+
+      **Content**
+
+      ```json
+      {
+        "access_token": "FILLER",
+        "expires_in": 7200,
+        "refresh_token": "FILLER",
+        "openid": "FILLER",
+        "scope": "snsapi_base"
+      }
+      ```
+
+      or
+
+      ```json
+      {
+      "access_token": "FILLER",
+      "expires_in": 7200,
+      "refresh_token": "FILLER",
+      "openid": "FILLER",
+      "scope": "snsapi_userinfo",
+      "unionid": "FILLER",
+      "nickname": "FILLER",
+      "sex": 1,
+      "language": "en",
+      "city": "松江",
+      "province": "上海",
+      "country": "中国",
+      "headimgurl": "FILLER",
+      "privilege": []
+      }
+      ```
+
+### Wechat user info
+* **URL**
+    /third_party_platforms/:third_party_platform_uid/official_accounts/:official_account_app_id/wechat_users/:open_id
+
+* **Method**
+    `GET`
+
+* **URL params**
+
+    None
+
+* **Data params**
+
+    None
+
+* **Success Response**
+
+    * **Code**
+      200
+
+      **Content**
+
+      ```json
+      {
+        "openid": "FILLER",
+        ...
+      }
+      ```
