@@ -14,7 +14,7 @@ module WechatOpenPlatformProxy
     end
 
     def encrypt_message(original_xml)
-      WechatMessageEncryptor.encrypt_message(original_xml, messages_checking_token, third_party_platform.message_encryption_key, third_party_platform.app_id)
+      WechatMessageEncryptor.encrypt_message(original_xml, third_party_platform.messages_checking_token, third_party_platform.message_encryption_key, third_party_platform.app_id)
     end
 
     private
