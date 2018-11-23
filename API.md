@@ -92,6 +92,45 @@
       }
       ```
 
+### 公众号信息查询
+------
+* **URL**
+    /third_party_platforms/:third_party_platform_uid/official_accounts/:official_account_app_id
+
+* **Method**
+    `GET`
+
+* **URL params**
+
+    None
+
+* **Data params**
+
+    **Required params**
+    None
+
+    **Optional params**
+    `
+    {
+      force_refresh: [string]
+    }`
+
+* **Success Response**
+
+    * **Code**
+      200
+
+      **Content**
+
+      ```json
+      {
+        "app_id": "APPID",
+        "original_id": "FILLER",
+        "nick_name": "FILLER",
+        ...
+      }
+      ```
+
 ### 发送公众号模板消息
 ------
 * **URL**
