@@ -27,7 +27,7 @@ module WechatOpenPlatformProxy
         Rails.logger.info "OfficialAccountAuthorizeService get_authorization_info resp: #{resp.body}"
 
         resp_info = JSON.parse(resp.body)
-        raise AuthorizationInfoApiError unless resp_info["errcode"].to_i.zero?
+        raise AuthorizationInfoApiError, resp.body unless resp_info["errcode"].to_i.zero?
 
         resp_info["authorization_info"].tap do |authorization_info|
           Rails.cache.write("official_account_#{authorization_info['authorizer_appid']}_access_token", authorization_info["authorizer_access_token"], expires_in: (authorization_info["expires_in"].to_i.seconds - 5.minutes))
