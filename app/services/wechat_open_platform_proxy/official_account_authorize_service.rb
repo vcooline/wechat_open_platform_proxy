@@ -40,7 +40,7 @@ module WechatOpenPlatformProxy
         Rails.logger.info "OfficialAccountAuthorizeService get_authorizer_info(#{official_account_app_id}): #{resp.body}"
 
         resp_info = JSON.parse(resp.body)
-        raise AuthorizerInfoError unless resp_info["errcode"].to_i.zero?
+        raise AuthorizerInfoError, resp.body unless resp_info["errcode"].to_i.zero?
         resp_info
       end
 
