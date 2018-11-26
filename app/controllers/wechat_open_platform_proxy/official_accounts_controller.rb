@@ -11,7 +11,7 @@ module WechatOpenPlatformProxy
 
     def show
       @official_account = OfficialAccountAuthorizeService.new(@third_party_platform).refresh_account_info(params[:app_id]) if (params[:force_refresh].present? || @official_account.nil?)
-    rescue OfficialAccountAuthorizeService::AuthorizationInfoApiError => e
+    rescue OfficialAccountAuthorizeService::AuthorizerInfoError => e
       render json: JSON.load(e.message), status: :unauthorized
     end
 
