@@ -29,7 +29,7 @@ module WechatOpenPlatformProxy
       end
     end
 
-    def open_id
+    def base_info
       render json: WechatUserAuthorizeService.new(@official_account).get_base_info(params[:code])
     end
 
