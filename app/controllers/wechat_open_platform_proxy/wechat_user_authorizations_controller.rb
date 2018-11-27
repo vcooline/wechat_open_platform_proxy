@@ -20,7 +20,7 @@ module WechatOpenPlatformProxy
     def show
       fallback_redirect_url = (params[:scope] == "snsapi_userinfo") ?
         user_info_third_party_platform_official_account_wechat_user_authorization_url(@third_party_platform, @official_account) :
-        open_id_third_party_platform_official_account_wechat_user_authorization_url(@third_party_platform, @official_account)
+        base_info_third_party_platform_official_account_wechat_user_authorization_url(@third_party_platform, @official_account)
       if params[:code].present?
         redirect_to url_with_additional_params((params[:redirect_url].presence || fallback_redirect_url), code: params[:code])
       else
