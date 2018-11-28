@@ -8,14 +8,14 @@ module WechatOpenPlatformProxy
 
     def perform(message_body, params)
       Rails.logger.info "ThirdPartyPlatformAuthorizationEventHandler message body:\n#{message_body}"
-      message_params = Hash.from_xml ThirdPartyPlatformMessageEncryptor.new(third_party_platform).decrypt_message(message_body, params[:timestamp], params[:nonce], params[:msg_signature])
+      message_params = Hash.from_xml(ThirdPartyPlatformMessageEncryptor.new(third_party_platform).decrypt_message(message_body, params[:timestamp], params[:nonce], params[:msg_signature]))["xml"]
       Rails.logger.info "ThirdPartyPlatformAuthorizationEventHandler message params: #{message_params.to_json}"
 
-      case message_params["xml"]["InfoType"]
+      case message_params["InfoType"]
       when "component_verify_ticket"
-        ThirdPartyPlatformCacheStore.new(third_party_platform).write_component_verify_ticket(message_params["xml"]["ComponentVerifyTicket"])
+        ThirdPartyPlatformCacheStore.new(third_party_platform).write_component_verify_ticket(message_params["ComponentVerifyTicket"])
       when "unauthorized"
-        OfficialAccount.find_by(app_id: message_params["xml"]["AuthorizerAppid"])&.destroy
+        OfficialAccount.find_by(app_id: message_params["AuthorizerAppid"])&.destroy
       else
       end
     end
