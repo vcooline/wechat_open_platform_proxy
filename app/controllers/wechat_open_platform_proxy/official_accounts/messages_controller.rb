@@ -7,6 +7,9 @@ module WechatOpenPlatformProxy
       reply_body = OfficialAccountMessageHandler.new(@official_account).perform(message_body, params)
       logger.info "OfficialAccountMessageHandler reply body: #{reply_body}"
       reply_body.present? ? render(xml: ThirdPartyPlatformMessageEncryptor.new(@third_party_platform).encrypt_message(reply_body)) : render(plain: "")
+    rescue => e
+      logger.error "WechatOpenPlatformProxy::OfficialAccounts::MessagesController #{e.class.name}: #{e.message}"
+      render plain: ""
     end
   end
 end
