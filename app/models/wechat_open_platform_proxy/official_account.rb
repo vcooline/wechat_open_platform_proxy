@@ -1,6 +1,7 @@
 module WechatOpenPlatformProxy
   class OfficialAccount < ApplicationRecord
     belongs_to :third_party_platform
+    has_one :message_handler, dependent: :destroy
 
     validates_uniqueness_of :app_id, scope: :third_party_platform, allow_nil: false
     validates_uniqueness_of :original_id, scope: :third_party_platform, allow_nil: true
