@@ -9,7 +9,7 @@ module WechatOpenPlatformProxy
 
     def perform(message_body, params)
       Rails.logger.info "OfficialAccountMessageHandler message body:\n#{message_body}"
-      message_params = Hash.from_xml ThirdPartyPlatformMessageEncryptor.new(third_party_platform).decrypt_message(message_body, params[:timestamp], params[:nonce], params[:msg_signature])
+      message_params = Hash.from_xml(ThirdPartyPlatformMessageEncryptor.new(third_party_platform).decrypt_message(message_body, params[:timestamp], params[:nonce], params[:msg_signature]))["xml"]
       Rails.logger.info "OfficialAccountMessageHandler message params: #{message_params.to_json}"
 
       if official_account.app_id == ENVConfig.wechat_open_platform_test_official_account_app_id
