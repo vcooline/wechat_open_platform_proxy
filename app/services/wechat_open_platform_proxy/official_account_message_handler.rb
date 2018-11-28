@@ -24,6 +24,9 @@ module WechatOpenPlatformProxy
     private
       def handle_real_message(message_params)
         (official_account.message_handler&.name || ENVConfig.wechat_open_platform_default_message_handler_name)&.classify&.safe_constantize&.perform(message_params)
+      rescue => e
+        Rails.logger.error "WechatOpenPlatformProxy::OfficialAccountMessageHandler handle real message #{e.class.name}: #{e.message}"
+        nil
       end
   end
 end
