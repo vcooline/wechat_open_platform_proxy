@@ -47,7 +47,7 @@ module WechatOpenPlatformProxy
       def set_official_account(authorization_info, authorizer_info)
         third_party_platform.official_accounts.find_or_initialize_by(app_id: authorization_info["authorizer_appid"]).tap do |official_account|
           official_account.update(
-            refresh_token: authorization_info["authorizer_refresh_token"],
+            refresh_token: (authorization_info["authorizer_refresh_token"].presence || official_account.refresh_token),
             original_id: authorizer_info["user_name"],
             nick_name: authorizer_info["nick_name"],
             head_img: authorizer_info["head_img"],
