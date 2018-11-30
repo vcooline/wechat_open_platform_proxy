@@ -3,7 +3,7 @@ module WechatOpenPlatformProxy
     attr_reader :official_account
 
     def initialize(account)
-      @official_account = account.is_a?(WechatOpenPlatformProxy::OfficialAccount) ? account : OfficialAccount.find_by(app_id: account)
+      @official_account = account
     end
 
     def fetch_access_token(force_renew=false)
