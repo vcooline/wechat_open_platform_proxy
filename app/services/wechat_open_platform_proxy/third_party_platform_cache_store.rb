@@ -40,7 +40,7 @@ module WechatOpenPlatformProxy
 
         resp_info = JSON.parse(resp.body)
         if resp_info['errcode'].to_i.zero? && resp_info["pre_auth_code"].present? && resp_info["expires_in"].present?
-          Rails.cache.write(pre_auth_code_cache_key, resp_info["pre_auth_code"], expires_in: (resp_info["expires_in"].to_i.seconds - 5.minutes))
+          Rails.cache.fetch(pre_auth_code_cache_key, expires_in: (resp_info["expires_in"].to_i.seconds - 5.minutes), race_condition_ttl: 5) { resp_info["pre_auth_code"] }
         end
       end
 
