@@ -30,11 +30,11 @@ module WechatOpenPlatformProxy
     end
 
     def base_info
-      render json: WechatUserAuthorizeService.new(@official_account).get_base_info(params[:wechat_oauth_code])
+      render json: WechatUserAuthorizeService.new(@official_account).get_base_info(params[:wechat_oauth_code].presence || params[:code])
     end
 
     def user_info
-      render json: WechatUserAuthorizeService.new(@official_account).get_user_info(params[:wechat_oauth_code])
+      render json: WechatUserAuthorizeService.new(@official_account).get_user_info(params[:wechat_oauth_code].presence || params[:code])
     end
 
     private
