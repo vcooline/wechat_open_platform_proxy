@@ -131,6 +131,31 @@
       }
       ```
 
+### 生成带参数的二维码
+------
+* **URL**
+    /third_party_platforms/:third_party_platform_uid/official_accounts/:official_account_app_id/qr_codes
+
+* **Method**
+    `POST`
+
+* **URL params**
+
+    None
+
+* **Data params**
+
+    **Required params**
+    `
+    {qr_code: {"expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": 123}}},
+    }
+    `
+
+    参见官方模板消息体格式: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542
+
+    **Optional params**
+    None
+
 ### 发送公众号模板消息
 ------
 * **URL**
