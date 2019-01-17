@@ -159,7 +159,7 @@
 ### 发送公众号模板消息
 ------
 * **URL**
-    /third_party_platforms/:third_party_platform_uid/official_accounts/:official_account_app_id/template_messages
+    /third_party_platforms/:third_party_platform_uid/official_accounts/:official_account_app_id/templated_messages
 
 * **Method**
     `POST`
@@ -173,7 +173,7 @@
     **Required params**
     `
     {
-      template_message: {
+      templated_message: {
         "touser":"OPENID",
         "template_id":"ngqIpbwh8bUfcSsECmogfXcV14J0tQlEpBO27izEYtY",
         "url":"http://weixin.qq.com/download",  
