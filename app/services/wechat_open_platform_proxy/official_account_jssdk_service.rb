@@ -6,7 +6,13 @@ module WechatOpenPlatformProxy
       @official_account = official_account
     end
 
-    def perform(message_params)
+    def config(url)
+      jsapi_ticket = OfficialAccountCacheStore.new(official_account).fetch_jsapi_ticket
+      {
+        appId: official_account.app_id,
+        timestamp: Time.now.to_i,
+        nonceStr: SecureRandom.base58
+      }.tap { |conf| conf.merge!(signature: Digest::SHA1.hexdigest("#{conf.slice(:timestamp, :nonceStr).merge(jsapi_ticket: jsapi_ticket).to_query}&url=#{url}")) }
     end
   end
 end
