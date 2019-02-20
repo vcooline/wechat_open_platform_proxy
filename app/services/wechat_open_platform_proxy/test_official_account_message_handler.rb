@@ -54,8 +54,7 @@ module WechatOpenPlatformProxy
         # 使用授权码换取公众号的授权信息
         authorizer = OfficialAccountAuthorizeService.new(official_account.third_party_platform).get_account_info(auth_code)
         # 调用发送客服消息api
-        resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=#{OfficialAccountCacheStore.new(authorizer).fetch_access_token}", { touser: message_params["FromUserName"], msgtype: "text", text: {content: "#{auth_code}_from_api"} }.to_json
-        Rails.logger.info "TestOfficialAccountMessageHandler handle_customer_service_message resp: #{resp.body}"
+        OfficialAccountCustomerServiceMessageService.new(authorizer).send_message(touser: message_params["FromUserName"], msgtype: "text", text: {content: "#{auth_code}_from_api"})
 
         nil
       end
