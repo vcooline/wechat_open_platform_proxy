@@ -7,8 +7,8 @@ module WechatOpenPlatformProxy
     end
 
     def send_message(message_params)
-      Rails.logger.info "OfficialAccountCustomerServiceMessageService send_message reqt:\n#{message_params.to_json}"
-      resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", message_params.to_json
+      Rails.logger.info "OfficialAccountCustomerServiceMessageService send_message reqt:\n#{JSON.dump(message_params)}"
+      resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", JSON.dump(message_params)
       Rails.logger.info "OfficialAccountCustomerServiceMessageService send_message resp: #{resp.body}"
 
       resp
