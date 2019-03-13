@@ -20,5 +20,8 @@ module WechatOpenPlatformProxy
       mini_program_info.present?
     end
 
+    def allow_oauth?
+      service_type_info&.dig("id").eql?(2) && verify_type_info&.dig("id").eql?(0)
+    end
   end
 end
