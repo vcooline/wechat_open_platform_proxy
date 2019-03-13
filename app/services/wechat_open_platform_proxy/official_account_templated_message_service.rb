@@ -13,5 +13,12 @@ module WechatOpenPlatformProxy
 
       resp
     end
+
+    def template_list
+      resp = Faraday.get "https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}"
+      Rails.logger.info "OfficialAccountTemplatedMessageService template_list resp: #{resp.body}"
+
+      resp
+    end
   end
 end
