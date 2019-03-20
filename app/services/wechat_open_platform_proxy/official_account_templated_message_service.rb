@@ -20,5 +20,13 @@ module WechatOpenPlatformProxy
 
       resp
     end
+
+    def apply_template(short_id)
+      Rails.logger.info "OfficialAccountTemplatedMessageService apply_template reqt: #{short_id}"
+      resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", {template_id_short: short_id}.to_json
+      Rails.logger.info "OfficialAccountTemplatedMessageService apply_template resp: #{resp.body}"
+
+      resp
+    end
   end
 end
