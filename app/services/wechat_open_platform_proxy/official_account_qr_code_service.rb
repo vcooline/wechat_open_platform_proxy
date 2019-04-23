@@ -7,7 +7,7 @@ module WechatOpenPlatformProxy
     end
 
     def create_qrcode(qr_code_params)
-      Rails.logger.info "OfficialAccountQrCodeService create_qrcode reqt:\n#{qr_code_params.to_json}"
+      Rails.logger.info "OfficialAccountQrCodeService create_qrcode reqt: #{qr_code_params.to_json}"
       resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", qr_code_params.to_json
       Rails.logger.info "OfficialAccountQrCodeService create_qrcode resp: #{resp.body}"
 
