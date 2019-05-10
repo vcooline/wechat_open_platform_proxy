@@ -32,14 +32,7 @@ module WechatOpenPlatformProxy
     end
 
     def refresh_user_info(open_id)
-      request_params = {
-        access_token: OfficialAccountCacheStore.new(official_account).fetch_access_token,
-        openid: open_id,
-        lang: "zh_CN"
-      }
-      resp = Faraday.get "https://api.weixin.qq.com/cgi-bin/user/info?#{request_params.to_query}"
-      Rails.logger.info "WechatUserAuthorizeService refresh_user_info resp: #{resp.body}"
-      JSON.parse(resp.body)
+      OfficialAccountUserManagementService.new(official_account).user_info(open_id)
     end
   end
 end
