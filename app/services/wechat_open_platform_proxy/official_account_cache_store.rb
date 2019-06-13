@@ -17,6 +17,11 @@ module WechatOpenPlatformProxy
       read_jsapi_ticket || renew_jsapi_ticket
     end
 
+    def fetch_wx_card_ticket(force_renew=false)
+      delete_wx_card_ticket if force_renew
+      read_wx_card_ticket || renew_wx_card_ticket
+    end
+
     private
       def read_access_token
         Rails.cache.read(access_token_cache_key)
@@ -60,12 +65,34 @@ module WechatOpenPlatformProxy
         end
       end
 
+      def read_wx_card_ticket
+        Rails.cache.read(wx_card_ticket_cache_key)
+      end
+
+      def delete_wx_card_ticket
+        Rails.cache.delete(wx_card_ticket_cache_key)
+      end
+
+      def renew_wx_card_ticket
+        resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=#{fetch_access_token}&type=wx_card"
+        Rails.logger.info "OfficialAccountCacheStore renew_wx_card_ticket(#{third_party_platform.uid}/#{official_account.app_id}) resp: #{resp.body}"
+
+        resp_info = JSON.parse(resp.body)
+        if resp_info["errcode"].to_i.zero? && resp_info["ticket"].present? && resp_info["expires_in"].present?
+          Rails.cache.fetch(wx_card_ticket_cache_key, expires_in: (resp_info["expires_in"].to_i.seconds - 5.minutes), race_condition_ttl: 5) { resp_info["ticket"] }
+        end
+      end
+
       def access_token_cache_key
         "access_token_#{third_party_platform.uid}_#{official_account.app_id}"
       end
 
       def jsapi_ticket_cache_key
         "jsapi_ticket_#{third_party_platform.uid}_#{official_account.app_id}"
+      end
+
+      def wx_card_ticket_cache_key
+        "wx_card_ticket_#{third_party_platform.uid}_#{official_account.app_id}"
       end
   end
 end
