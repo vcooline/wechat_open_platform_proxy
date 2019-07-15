@@ -15,7 +15,7 @@ module WechatOpenPlatformProxy
         component_access_token: ThirdPartyPlatformCacheStore.new(official_account.third_party_platform).fetch_access_token
       }
       resp = Faraday.get "https://api.weixin.qq.com/sns/oauth2/component/access_token?#{request_params.to_query}"
-      Rails.logger.info "WechatUserAuthorizeService get_base_info resp: #{resp.body}"
+      Rails.logger.info "WechatUserAuthorizeService get_base_info resp: #{resp.body.squish}"
       JSON.parse(resp.body)
     end
 
@@ -27,7 +27,7 @@ module WechatOpenPlatformProxy
         access_token: base_info["access_token"]
       }
       resp = Faraday.get "https://api.weixin.qq.com/sns/userinfo?#{request_params.to_query}"
-      Rails.logger.info "WechatUserAuthorizeService get_user_info resp: #{resp.body}"
+      Rails.logger.info "WechatUserAuthorizeService get_user_info resp: #{resp.body.squish}"
       JSON.parse(resp.body).reverse_merge(base_info)
     end
 

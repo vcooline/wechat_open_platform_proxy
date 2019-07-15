@@ -18,7 +18,7 @@ module WechatOpenPlatformProxy
       Rails.logger.info "OfficialAccountAssetManagementService upload_temporary_asset reqt: #{file_path}|#{type}|#{mime_type}"
       payload = { type: type, media: Faraday::UploadIO.new(file_path, mime_type) }
       resp = api_client.post "/cgi-bin/media/upload?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", payload
-      Rails.logger.info "OfficialAccountAssetManagementService upload_temporary_asset resp: #{resp.body}"
+      Rails.logger.info "OfficialAccountAssetManagementService upload_temporary_asset resp: #{resp.body.squish}"
 
       resp
     end

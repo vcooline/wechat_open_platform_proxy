@@ -9,14 +9,14 @@ module WechatOpenPlatformProxy
     def send_message(message_params)
       Rails.logger.info "OfficialAccountTemplatedMessageService send_message reqt: #{message_params.to_json}"
       resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", message_params.to_json
-      Rails.logger.info "OfficialAccountTemplatedMessageService send_message resp: #{resp.body}"
+      Rails.logger.info "OfficialAccountTemplatedMessageService send_message resp: #{resp.body.squish}"
 
       resp
     end
 
     def template_list
       resp = Faraday.get "https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}"
-      Rails.logger.info "OfficialAccountTemplatedMessageService template_list resp: #{resp.body}"
+      Rails.logger.info "OfficialAccountTemplatedMessageService template_list resp: #{resp.body.squish}"
 
       resp
     end
@@ -24,7 +24,7 @@ module WechatOpenPlatformProxy
     def apply_template(short_id)
       Rails.logger.info "OfficialAccountTemplatedMessageService apply_template reqt: #{short_id}"
       resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", {template_id_short: short_id}.to_json
-      Rails.logger.info "OfficialAccountTemplatedMessageService apply_template resp: #{resp.body}"
+      Rails.logger.info "OfficialAccountTemplatedMessageService apply_template resp: #{resp.body.squish}"
 
       resp
     end

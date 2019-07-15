@@ -24,7 +24,7 @@ module WechatOpenPlatformProxy
       def get_authorization_info(auth_code)
         request_params = { component_appid: third_party_platform.app_id, authorization_code: auth_code }
         resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=#{ThirdPartyPlatformCacheStore.new(third_party_platform).fetch_access_token}", request_params.to_json
-        Rails.logger.info "OfficialAccountAuthorizeService get_authorization_info resp: #{resp.body}"
+        Rails.logger.info "OfficialAccountAuthorizeService get_authorization_info resp: #{resp.body.squish}"
 
         resp_info = JSON.parse(resp.body)
         raise AuthorizationInfoApiError, resp.body unless resp_info["errcode"].to_i.zero?
@@ -37,7 +37,7 @@ module WechatOpenPlatformProxy
       def get_authorizer_info(official_account_app_id)
         request_params = { component_appid: third_party_platform.app_id, authorizer_appid: official_account_app_id }
         resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=#{ThirdPartyPlatformCacheStore.new(third_party_platform).fetch_access_token}", request_params.to_json
-        Rails.logger.info "OfficialAccountAuthorizeService get_authorizer_info(#{third_party_platform.uid}/#{official_account_app_id}): #{resp.body}"
+        Rails.logger.info "OfficialAccountAuthorizeService get_authorizer_info(#{third_party_platform.uid}/#{official_account_app_id}): #{resp.body.squish}"
 
         resp_info = JSON.parse(resp.body)
         raise AuthorizerInfoError, resp.body unless resp_info["errcode"].to_i.zero?

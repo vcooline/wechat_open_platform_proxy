@@ -38,7 +38,7 @@ module WechatOpenPlatformProxy
           authorizer_refresh_token: official_account.refresh_token
         }
         resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=#{ThirdPartyPlatformCacheStore.new(third_party_platform).fetch_access_token}", request_params.to_json
-        Rails.logger.info "OfficialAccountCacheStore renew_access_token(#{third_party_platform.uid}/#{official_account.app_id}) resp: #{resp.body}"
+        Rails.logger.info "OfficialAccountCacheStore renew_access_token(#{third_party_platform.uid}/#{official_account.app_id}) resp: #{resp.body.squish}"
 
         resp_info = JSON.parse(resp.body)
         if resp_info["errcode"].to_i.zero? && resp_info["authorizer_refresh_token"].present? && resp_info["authorizer_access_token"].present? && resp_info["expires_in"].present?
@@ -57,7 +57,7 @@ module WechatOpenPlatformProxy
 
       def renew_jsapi_ticket
         resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=#{fetch_access_token}&type=jsapi"
-        Rails.logger.info "OfficialAccountCacheStore renew_jsapi_ticket(#{third_party_platform.uid}/#{official_account.app_id}) resp: #{resp.body}"
+        Rails.logger.info "OfficialAccountCacheStore renew_jsapi_ticket(#{third_party_platform.uid}/#{official_account.app_id}) resp: #{resp.body.squish}"
 
         resp_info = JSON.parse(resp.body)
         if resp_info["errcode"].to_i.zero? && resp_info["ticket"].present? && resp_info["expires_in"].present?
@@ -75,7 +75,7 @@ module WechatOpenPlatformProxy
 
       def renew_wx_card_ticket
         resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=#{fetch_access_token}&type=wx_card"
-        Rails.logger.info "OfficialAccountCacheStore renew_wx_card_ticket(#{third_party_platform.uid}/#{official_account.app_id}) resp: #{resp.body}"
+        Rails.logger.info "OfficialAccountCacheStore renew_wx_card_ticket(#{third_party_platform.uid}/#{official_account.app_id}) resp: #{resp.body.squish}"
 
         resp_info = JSON.parse(resp.body)
         if resp_info["errcode"].to_i.zero? && resp_info["ticket"].present? && resp_info["expires_in"].present?

@@ -36,7 +36,7 @@ module WechatOpenPlatformProxy
       def create_pre_auth_code
         request_params = { component_appid: third_party_platform.app_id }
         resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token=#{fetch_access_token}", request_params.to_json
-        Rails.logger.info "ThirdPartyPlatformCacheStore create_pre_auth_code(#{third_party_platform.app_id}) resp: #{resp.body}"
+        Rails.logger.info "ThirdPartyPlatformCacheStore create_pre_auth_code(#{third_party_platform.app_id}) resp: #{resp.body.squish}"
 
         resp_info = JSON.parse(resp.body)
         if resp_info['errcode'].to_i.zero? && resp_info["pre_auth_code"].present? && resp_info["expires_in"].present?
@@ -59,7 +59,7 @@ module WechatOpenPlatformProxy
           component_verify_ticket: read_component_verify_ticket
         }
         resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/component/api_component_token", request_params.to_json
-        Rails.logger.info "ThirdPartyPlatformCacheStore renew_access_token(#{third_party_platform.app_id}) resp: #{resp.body}"
+        Rails.logger.info "ThirdPartyPlatformCacheStore renew_access_token(#{third_party_platform.app_id}) resp: #{resp.body.squish}"
 
         resp_info = JSON.parse(resp.body)
         if resp_info['errcode'].to_i.zero? && resp_info["component_access_token"].present? && resp_info["expires_in"].present?
