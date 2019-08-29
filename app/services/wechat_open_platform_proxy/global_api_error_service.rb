@@ -7,7 +7,9 @@ module WechatOpenPlatformProxy
     end
 
     def perform(resp)
-      if resp["errcode"] == 40001
+      resp_info = JSON.load(resp.body).to_h
+
+      if resp_info["errcode"] == 40001
         OfficialAccountCacheStore.new(official_account).fetch_access_token(true)
       end
     end
