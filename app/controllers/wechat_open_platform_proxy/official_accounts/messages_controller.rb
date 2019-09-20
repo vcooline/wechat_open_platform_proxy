@@ -5,7 +5,7 @@ module WechatOpenPlatformProxy
     def create
       message_body = request.body.tap(&:rewind ).read
       reply_body = OfficialAccountMessageHandler.new(@official_account).perform(message_body, params)
-      logger.info "OfficialAccountMessageHandler reply body: #{reply_body.squish}"
+      logger.info "OfficialAccountMessageHandler reply body: #{reply_body&.squish}"
       reply_body.present? ? render(xml: ThirdPartyPlatformMessageEncryptor.new(@third_party_platform).encrypt_message(reply_body)) : render(plain: "")
     rescue => e
       logger.error "WechatOpenPlatformProxy::OfficialAccounts::MessagesController #{e.class.name}: #{e.message}"
