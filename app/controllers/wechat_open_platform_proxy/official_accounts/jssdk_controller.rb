@@ -12,6 +12,10 @@ module WechatOpenPlatformProxy
       render json: OfficialAccountJssdkService.new(@official_account).card_ext_config(*card_config_params.values_at(:card_id, :code, :openid)), status: :ok
     end
 
+    def card_sign
+      render json: OfficialAccountJssdkService.new(@official_account).card_sign(card_sign_params.to_h), status: :ok
+    end
+
     private
       def config_params
         params.fetch(:config_params, {}).permit(:url)
@@ -19,6 +23,10 @@ module WechatOpenPlatformProxy
 
       def card_config_params
         params.fetch(:card_config_params, {}).permit(:card_id, :code, :openid)
+      end
+
+      def card_sign_params
+        params.fetch(:card_sign_params, {}).permit(:noncestr, :timestamp, :card_id)
       end
   end
 end
