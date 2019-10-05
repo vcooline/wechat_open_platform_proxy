@@ -17,7 +17,7 @@ module WechatOpenPlatformProxy
 
     def card_sign(options={})
       wx_card_ticket = OfficialAccountCacheStore.new(official_account).fetch_wx_card_ticket
-      Digest::SHA1.hexdigest([wx_card_ticket, *options.values].map(&:to_s).sort.join)
+      { card_sign: Digest::SHA1.hexdigest([wx_card_ticket, *options.values].map(&:to_s).sort.join) }
     end
 
     # 签名说明
