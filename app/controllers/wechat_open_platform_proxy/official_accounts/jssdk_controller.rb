@@ -13,7 +13,7 @@ module WechatOpenPlatformProxy
     end
 
     def card_sign
-      render json: OfficialAccountJssdkService.new(@official_account).card_sign(card_sign_params.to_h), status: :ok
+      render json: {card_sign: OfficialAccountJssdkService.new(@official_account).card_sign(card_sign_params.to_h)}, status: :ok
     end
 
     private

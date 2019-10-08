@@ -16,9 +16,9 @@ WechatOpenPlatformProxy::Engine.routes.draw do
         resources :messages, only: [:create]
         resources :templated_messages, only: [:create], defaults: {format: :json}
         resources :qr_codes, only: [:create], defaults: {format: :json}
-        get "jssdk/wx_config", to: "jssdk#wx_config", defaults: {format: :json}
-        get "jssdk/card_wx_config", to: "jssdk#card_wx_config", defaults: {format: :json}
-        get "jssdk/card_sign", to: "jssdk#card_sign", defaults: {format: :json}
+        get "jssdk/wx_config", defaults: {format: :json}
+        get "jssdk/card_wx_config", defaults: {format: :json}
+        get "jssdk/card_sign", defaults: {format: :json}
       end
 
       resource :wechat_user_authorization, only: [:new, :show] do
