@@ -1,5 +1,5 @@
 module WechatOpenPlatformProxy
-  class WechatMemberCardService
+  class OfficialAccountMemberCardService
     attr_reader :wechat_member_card, :official_account
 
     def initialize(official_account, wechat_member_card)
