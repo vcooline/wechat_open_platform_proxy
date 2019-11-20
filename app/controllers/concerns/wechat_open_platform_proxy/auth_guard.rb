@@ -18,22 +18,6 @@ module WechatOpenPlatformProxy
     end
 
     private
-      def authenticate
-        raise AuthenticateFailError unless current_user.present? || params[:in_iframe]
-      end
-
-      def current_user
-        @current_user ||= auth_params.present? ? authenticate_user : session_user
-      end
-
-      def session_user
-        User.find_by(id: session[:user_id])
-      end
-
-      def authenticate_user
-        send("authenticate_user_using_#{auth_params[:type].underscore}", auth_params[:value])&.tap { |u| session[:user_id] = u.id }
-      end
-
       def authenticate_client
         send("authenticate_client_using_#{auth_params[:type].underscore}", auth_params[:value])
       rescue => e
@@ -41,22 +25,8 @@ module WechatOpenPlatformProxy
         raise AuthenticateFailError, "#{e.class.name}: #{e.message}"
       end
 
-      def authenticate_user_using_plain_user_token(token_value)
-        find_user_using_plain_user_token(token_value) || create_user_using_plain_user_token(token_value)
-      end
-
       def authenticate_client_using_plain_client_token(token_value)
         raise InvalidAuthValueError unless token_value == ENVConfig.client_auth_token
-      end
-
-      def find_user_using_plain_user_token(token_value)
-        User::Credential.find_by(token: token_value)&.user
-      end
-
-      def create_user_using_plain_user_token(token_value)
-        User.transaction do
-          User.create!(uid: SecureRandom.base58).tap{|u| u.credentials.create!(token: token_value) }
-        end
       end
 
       def auth_params
