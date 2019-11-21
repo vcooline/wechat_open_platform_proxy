@@ -23,7 +23,13 @@ module WechatOpenPlatformProxy
       Rails.logger.info "OfficialAccountUserManagementService user info reqt: #{open_id}"
       resp = Faraday.get "https://api.weixin.qq.com/cgi-bin/user/info?#{query_params.to_query}"
       Rails.logger.info "OfficialAccountUserManagementService user info resp: #{resp.body.squish}"
-      JSON.parse(resp.body)
+      JSON.parse(safe_response_body(resp))
     end
+
+    private
+      def safe_response_body(resp)
+        return "{}" if resp.body.blank?
+        resp.body.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
+      end
   end
 end
