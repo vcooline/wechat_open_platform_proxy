@@ -23,6 +23,18 @@ module WechatOpenPlatformProxy
       resp
     end
 
+    def download_temporary_asset(media_id)
+      query_params = {
+        access_token: OfficialAccountCacheStore.new(official_account).fetch_access_token,
+        media_id: media_id
+      }
+      Rails.logger.info "OfficialAccountAssetManagementService download_temporary_asset reqt: #{media_id}"
+      resp = Faraday.get "https://api.weixin.qq.com/cgi-bin/media/get?#{query_params.to_query}"
+      Rails.logger.info "OfficialAccountAssetManagementService download_temporary_asset resp #{resp.status}: #{resp.headers.values_at('content-type', 'content-disposition').join('; ')}"
+
+      resp.body
+    end
+
     private
       def api_client
         Faraday.new("https://api.weixin.qq.com") do |conn|
