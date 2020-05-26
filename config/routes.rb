@@ -28,4 +28,6 @@ WechatOpenPlatformProxy::Engine.routes.draw do
       resources :wechat_users, param: :open_id, only: [:show]
     end
   end
+
+  get ':wechat_open_platform_verify_file', to: "welcome#verify_file", constraints: { wechat_open_platform_verify_file: /\d{10}\.txt/ }
 end
