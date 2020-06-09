@@ -7,7 +7,7 @@ module WechatOpenPlatformProxy
     end
 
     def guide_list(params={})
-      Rails.logger.info "OfficialAccountGuideService guide_list reqt"
+      Rails.logger.info "OfficialAccountGuideService guide_list reqt: #{params.to_json}"
       resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/guide/getguideacctlist?access_token=#{access_token}", params.to_json
       Rails.logger.info "OfficialAccountGuideService guide_list resp: #{resp.body.squish}"
 
@@ -15,7 +15,7 @@ module WechatOpenPlatformProxy
     end
 
     def guide_qrcode(params={})
-      Rails.logger.info "OfficialAccountGuideService guide_qrcode reqt"
+      Rails.logger.info "OfficialAccountGuideService guide_qrcode reqt: #{params.to_json}"
       resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/guide/guidecreateqrcode?access_token=#{access_token}", params.to_json
       Rails.logger.info "OfficialAccountGuideService guide_qrcode resp: #{resp.body.squish}"
 
