@@ -22,6 +22,14 @@ module WechatOpenPlatformProxy
       JSON.load(resp.body)
     end
 
+    def bind_guide_customer(params)
+      Rails.logger.info "OfficialAccountGuideService bind_guide_customer reqt: #{params.to_json}"
+      resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/guide/updateguidebuyerrelation?access_token=#{access_token}", params.to_json
+      Rails.logger.info "OfficialAccountGuideService bind_guide_customer resp: #{resp.body.squish}"
+
+      resp
+    end
+
     private
       def access_token
         OfficialAccountCacheStore.new(official_account).fetch_access_token
