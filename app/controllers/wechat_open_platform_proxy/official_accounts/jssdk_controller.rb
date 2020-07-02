@@ -2,7 +2,7 @@ require_dependency "wechat_open_platform_proxy/application_controller"
 
 module WechatOpenPlatformProxy
   class OfficialAccounts::JssdkController < OfficialAccounts::BaseController
-    before_action :check_remote_ip_whitelisted, only: [:create]
+    before_action :check_remote_ip_whitelisted, only: [:wx_config, :card_wx_config, :card_sign]
 
     def wx_config
       render json: OfficialAccountJssdkService.new(@official_account).config(config_params[:url]), status: :ok
