@@ -34,13 +34,13 @@
 
     **Content**
 
-    `[redirect_url]?auth_code=xxx`
+    `[redirect_url]?wechat_open_auth_code=xxx`
 
 *  **Sample**
 
       Redirect `http://owx.example.com/third_party_platforms/:third_party_platform_uid/official_account_authorizations/new?redirect_url=[callback_redirect_url]`
 
-      Callback `callback_redirect_url?auth_code=[code]`
+      Callback `callback_redirect_url?wechat_open_auth_code=[code]`
 
 ### 公众号绑定授权后获取授权方信息
 ------
