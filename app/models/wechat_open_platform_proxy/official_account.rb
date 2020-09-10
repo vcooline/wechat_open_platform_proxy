@@ -23,5 +23,9 @@ module WechatOpenPlatformProxy
     def allow_oauth?
       service_type_info&.dig("id").eql?(2) && verify_type_info&.dig("id").eql?(0)
     end
+
+    def access_token(force_renew = false)
+      OfficialAccountCacheStore.new(self).fetch_access_token(force_renew)
+    end
   end
 end
