@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 6.0.2"
   s.add_dependency "kaminari"
+  s.add_dependency "addressable"
   s.add_dependency "jbuilder"
   s.add_dependency "faraday"
 
