@@ -84,15 +84,15 @@ module WechatOpenPlatformProxy
       end
 
       def access_token_cache_key
-        "access_token_#{third_party_platform.uid}_#{official_account.app_id}"
+        "access_token:#{third_party_platform.uid}:#{official_account.app_id}"
       end
 
       def jsapi_ticket_cache_key
-        "jsapi_ticket_#{third_party_platform.uid}_#{official_account.app_id}"
+        "jsapi_ticket:#{third_party_platform.uid}:#{official_account.app_id}"
       end
 
       def wx_card_ticket_cache_key
-        "wx_card_ticket_#{third_party_platform.uid}_#{official_account.app_id}"
+        "wx_card_ticket:#{third_party_platform.uid}:#{official_account.app_id}"
       end
   end
 end
