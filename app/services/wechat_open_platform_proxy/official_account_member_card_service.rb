@@ -32,7 +32,7 @@ module WechatOpenPlatformProxy
     end
 
     def upload_image(original_url)
-      tempfile = Tempfile.new([Digest::MD5.hexdigest(original_url), ".jpg"]).tap { |f| f.binmode and f.write(open(original_url).read) and f.rewind }
+      tempfile = Tempfile.new([Digest::MD5.hexdigest(original_url), ".jpg"]).tap { |f| f.binmode and f.write(open(Addressable::URI.parse(original_url).normalize).read) and f.rewind }
       payload = { buffer: Faraday::UploadIO.new(tempfile.path, "image") }
 
       Rails.logger.info "OfficialAccountMemberCardService upload_image reqt: #{original_url}"
