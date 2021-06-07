@@ -26,7 +26,7 @@ module WechatOpenPlatformProxy
     end
 
     def allow_open_bind?
-      Array(oa.func_info).detect{ |fun| Hash(fun).dig("funcscope_category", "id").eql?(24) }.present?
+      Array(func_info).detect{ |fun| Hash(fun).dig("funcscope_category", "id").eql?(24) }.present?
     end
 
     def open_app_id
