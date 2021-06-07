@@ -1,6 +1,7 @@
 module WechatOpenPlatformProxy
   class OfficialAccount < ApplicationRecord
     belongs_to :third_party_platform
+    belongs_to :open_account, optional: true
     has_one :message_handler, dependent: :destroy
 
     validates_uniqueness_of :app_id, scope: :third_party_platform, allow_nil: false
@@ -22,6 +23,14 @@ module WechatOpenPlatformProxy
 
     def allow_oauth?
       service_type_info&.dig("id").eql?(2) && verify_type_info&.dig("id").eql?(0)
+    end
+
+    def allow_open_bind?
+      Array(oa.func_info).detect{ |fun| Hash(fun).dig("funcscope_category", "id").eql?(24) }.present?
+    end
+
+    def open_app_id
+      open_account&.app_id
     end
 
     def access_token(force_renew = false)
