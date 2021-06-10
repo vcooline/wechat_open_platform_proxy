@@ -34,5 +34,18 @@ module WechatOpenPlatformProxy
     def refresh_user_info(open_id)
       OfficialAccountUserManagementService.new(official_account).user_info(open_id)
     end
+
+    def get_paid_union_id(open_id:, transaction_id: "", mch_id: "", out_trade_no: "")
+      request_params = if transaction_id.present?
+                        {openid: open_id, transaction_id: transaction_id}
+                      else
+                        {openid: open_id, mch_id: mch_id, out_trade_no: out_trade_no}
+                      end
+      Rails.logger.info "WechatOpenPlatformProxy::WechatUserAuthorizeService get_paid_union_id reqt: #{request_params.to_json}"
+      resp = Faraday.get "https://api.weixin.qq.com/wxa/getpaidunionid?access_token=#{official_account.access_token}", request_params
+      Rails.logger.info "WechatOpenPlatformProxy::WechatUserAuthorizeService get_paid_union_id resp: #{resp.body.squish}"
+
+      JSON.parse(resp.body)#.dig("unionid")
+    end
   end
 end
