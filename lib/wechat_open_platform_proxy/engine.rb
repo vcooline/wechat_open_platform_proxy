@@ -15,9 +15,9 @@ module WechatOpenPlatformProxy
     end
 
     initializer "wechat_open_platform_proxy.assets.precompile" do |app|
-      app.config.assets.precompile += %w(
+      app.config.assets.precompile += %w[
         wechat_open_platform_proxy_manifest.js
-      )
+      ]
     end
 
     config.generators do |g|
