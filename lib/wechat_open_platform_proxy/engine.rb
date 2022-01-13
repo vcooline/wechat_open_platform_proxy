@@ -26,7 +26,7 @@ module WechatOpenPlatformProxy
       g.stylesheets     false
       g.javascripts     false
       g.helper          false
-      g.test_framework  false
+      g.test_framework  nil
     end
   end
 end

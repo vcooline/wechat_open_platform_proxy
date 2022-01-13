@@ -9,6 +9,8 @@ module WechatOpenPlatformProxy
 
     scope :mini_program, -> { where.not(mini_program_info: nil) }
 
+    after_commit :bind_open_account, on: :create
+
     def to_param
       app_id
     end
@@ -26,7 +28,7 @@ module WechatOpenPlatformProxy
     end
 
     def allow_open_bind?
-      Array(func_info).detect{ |fun| Hash(fun).dig("funcscope_category", "id").eql?(24) }.present?
+      Array(func_info).detect { |fun| Hash(fun).dig("funcscope_category", "id").eql?(24) }.present?
     end
 
     def open_app_id
@@ -36,5 +38,11 @@ module WechatOpenPlatformProxy
     def access_token(force_renew = false)
       OfficialAccountCacheStore.new(self).fetch_access_token(force_renew)
     end
+
+    private
+
+      def bind_open_account
+        OfficialAccountOpenBindJob.perform_later(self.id)
+      end
   end
 end
