@@ -14,7 +14,7 @@ module WechatOpenPlatformProxy
         scope: params[:scope].presence || "snsapi_base", # snsapi_userinfo
         state: params[:state]
       }
-      redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?#{URI.encode_www_form(authorize_params)}#wechat_redirect"
+      redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?#{URI.encode_www_form(authorize_params)}#wechat_redirect", allow_other_host: true
     end
 
     def show
@@ -22,7 +22,7 @@ module WechatOpenPlatformProxy
         user_info_third_party_platform_official_account_wechat_user_authorization_url(@third_party_platform, @official_account) :
         base_info_third_party_platform_official_account_wechat_user_authorization_url(@third_party_platform, @official_account)
       if params[:code].present?
-        redirect_to url_with_additional_params((params[:redirect_url].presence || fallback_redirect_url), wechat_oauth_code: params[:code], wechat_oauth_scope: params[:scope])
+        redirect_to url_with_additional_params((params[:redirect_url].presence || fallback_redirect_url), wechat_oauth_code: params[:code], wechat_oauth_scope: params[:scope]), allow_other_host: true
       else
         logger.error "WechatUser authorize failed with callback params: #{params.to_json}"
         render plain: "授权登录失败，请稍候重试..."
@@ -38,6 +38,7 @@ module WechatOpenPlatformProxy
     end
 
     private
+
       def set_third_party_platform
         @third_party_platform = ThirdPartyPlatform.find_by!(uid: params[:third_party_platform_uid])
       end
