@@ -23,7 +23,7 @@ module WechatOpenPlatformProxy
       resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/qrcode/bind?access_token=#{official_account.access_token}", { appid: official_account.app_id, open_appid: open_app_id }.to_json
       Rails.logger.info "OfficialAccountOpenBindService bind resp: #{resp.body.squish}"
 
-      if JSON.parse(resp.body).errcode.zero?
+      if JSON.parse(resp.body)["errcode"].zero?
         official_account.third_party_platform.open_accounts.find_or_create_by(app_id: open_app_id, principal_name: official_account.principal_name).tap { |open_account| save_binding(open_account) }
       else
         false
@@ -35,7 +35,7 @@ module WechatOpenPlatformProxy
       resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/open/unbind?access_token=#{official_account.access_token}", { appid: official_account.app_id, open_appid: open_app_id }.to_json
       Rails.logger.info "OfficialAccountOpenBindService get resp: #{resp.body.squish}"
 
-      if JSON.parse(resp.body).errcode.zero?
+      if JSON.parse(resp.body)["errcode"].zero?
         official_account.third_party_platform.open_accounts.find_or_initialize_by(app_id: open_app_id, principal_name: official_account.principal_name).tap { |_open_account| save_binding(nil) }
       else
         false
