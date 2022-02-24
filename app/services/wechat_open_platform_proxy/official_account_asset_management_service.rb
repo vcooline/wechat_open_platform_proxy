@@ -16,7 +16,7 @@ module WechatOpenPlatformProxy
       type = asset_params[:type].presence || MIME::Type.new(mime_type).media_type
 
       Rails.logger.info "OfficialAccountAssetManagementService upload_temporary_asset reqt: #{file_path}|#{type}|#{mime_type}"
-      payload = { type: type, media: Faraday::UploadIO.new(file_path, mime_type) }
+      payload = { type: type, media: Faraday::Multipart::FilePart.new(file_path, mime_type) }
       resp = api_client.post "/cgi-bin/media/upload?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", payload
       Rails.logger.info "OfficialAccountAssetManagementService upload_temporary_asset resp: #{resp.body.squish}"
 
@@ -36,6 +36,7 @@ module WechatOpenPlatformProxy
     end
 
     private
+
       def api_client
         Faraday.new("https://api.weixin.qq.com") do |conn|
           conn.request :multipart

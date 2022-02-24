@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "addressable"
   s.add_dependency "jbuilder"
   s.add_dependency "faraday"
+  s.add_dependency "faraday-multipart"
 
   s.add_development_dependency "sqlite3"
 end
