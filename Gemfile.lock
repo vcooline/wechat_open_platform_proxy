@@ -4,6 +4,7 @@ PATH
     wechat_open_platform_proxy (0.1.1)
       addressable
       faraday
+      faraday-multipart
       jbuilder
       kaminari
       rails (>= 6.1)
@@ -86,6 +87,8 @@ GEM
     faraday (2.1.0)
       faraday-net_http (~> 2.0)
       ruby2_keywords (>= 0.0.4)
+    faraday-multipart (1.0.3)
+      multipart-post (>= 1.2, < 3)
     faraday-net_http (2.0.1)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -115,8 +118,9 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.7.1)
+    mini_portile2 (2.8.0)
     minitest (5.15.0)
+    multipart-post (2.1.1)
     net-imap (0.2.3)
       digest
       net-protocol
@@ -133,8 +137,8 @@ GEM
       net-protocol
       timeout
     nio4r (2.5.8)
-    nokogiri (1.13.1)
-      mini_portile2 (~> 2.7.0)
+    nokogiri (1.13.3)
+      mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     public_suffix (4.0.6)
     racc (1.6.0)
