@@ -7,17 +7,17 @@ module WechatOpenPlatformProxy
       @third_party_platform = account.third_party_platform
     end
 
-    def fetch_access_token(force_renew=false)
+    def fetch_access_token(force_renew: false)
       delete_access_token if force_renew
       read_access_token || renew_access_token
     end
 
-    def fetch_jsapi_ticket(force_renew=false)
+    def fetch_jsapi_ticket(force_renew: false)
       delete_jsapi_ticket if force_renew
       read_jsapi_ticket || renew_jsapi_ticket
     end
 
-    def fetch_wx_card_ticket(force_renew=false)
+    def fetch_wx_card_ticket(force_renew: false)
       delete_wx_card_ticket if force_renew
       read_wx_card_ticket || renew_wx_card_ticket
     end

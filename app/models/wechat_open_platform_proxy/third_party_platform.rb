@@ -10,8 +10,8 @@ module WechatOpenPlatformProxy
       uid
     end
 
-    def access_token(force_renew = false)
-      ThirdPartyPlatformCacheStore.new(self).fetch_access_token(force_renew)
+    def access_token(force_renew: false)
+      ThirdPartyPlatformCacheStore.new(self).fetch_access_token(force_renew:)
     end
   end
 end

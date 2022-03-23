@@ -35,8 +35,8 @@ module WechatOpenPlatformProxy
       open_account&.app_id
     end
 
-    def access_token(force_renew = false)
-      OfficialAccountCacheStore.new(self).fetch_access_token(force_renew)
+    def access_token(force_renew: false)
+      OfficialAccountCacheStore.new(self).fetch_access_token(force_renew:)
     end
 
     private

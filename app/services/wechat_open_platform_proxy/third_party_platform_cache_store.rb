@@ -10,7 +10,7 @@ module WechatOpenPlatformProxy
       Rails.cache.write(verify_ticket_cache_key, content) if content.present?
     end
 
-    def fetch_pre_auth_code(force_renew = false)
+    def fetch_pre_auth_code(force_renew: false)
       delete_pre_auth_code if force_renew
       read_pre_auth_code || create_pre_auth_code
     end
@@ -19,7 +19,7 @@ module WechatOpenPlatformProxy
       Rails.cache.delete(pre_auth_code_cache_key)
     end
 
-    def fetch_access_token(force_renew = false)
+    def fetch_access_token(force_renew: false)
       delete_access_token if force_renew
       read_access_token || renew_access_token
     end

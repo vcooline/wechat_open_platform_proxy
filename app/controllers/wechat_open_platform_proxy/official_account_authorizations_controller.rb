@@ -9,7 +9,7 @@ module WechatOpenPlatformProxy
       redirect_url = params[:redirect_url] || request.referrer
       authorize_params = {
         component_appid: @third_party_platform.app_id,
-        pre_auth_code: ThirdPartyPlatformCacheStore.new(@third_party_platform).fetch_pre_auth_code(params[:force_renew].presence),
+        pre_auth_code: ThirdPartyPlatformCacheStore.new(@third_party_platform).fetch_pre_auth_code(force_renew: params[:force_renew].present?),
         redirect_uri: third_party_platform_official_account_authorization_url(@third_party_platform, redirect_url: redirect_url),
         auth_type: params[:auth_type].presence || 3
       }
