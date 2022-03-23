@@ -1,11 +1,5 @@
 module WechatOpenPlatformProxy
-  class WechatUserAuthorizeService
-    attr_reader :official_account
-
-    def initialize(account)
-      @official_account = account
-    end
-
+  class WechatUserAuthorizeService < OfficialAccountBaseService
     def get_base_info(code)
       query_params = {
         appid: official_account.app_id,
@@ -69,9 +63,10 @@ module WechatOpenPlatformProxy
           access_token: base_info["access_token"]
         }
         resp = Faraday.get "https://api.weixin.qq.com/sns/userinfo?#{query_params.to_query}"
-        Rails.logger.info "WechatUserAuthorizeService base_info_to_user_info resp: #{resp.body.squish}"
+        resp_body = safe_response_body(resp)
+        Rails.logger.info "WechatUserAuthorizeService base_info_to_user_info resp: #{resp_body.squish}"
 
-        JSON.parse(resp.body)
+        JSON.parse(resp_body)
       end
   end
 end
