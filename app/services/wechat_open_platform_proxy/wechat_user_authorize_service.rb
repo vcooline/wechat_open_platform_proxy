@@ -12,7 +12,7 @@ module WechatOpenPlatformProxy
         code: code,
         grant_type: "authorization_code",
         component_appid: official_account.third_party_platform.app_id,
-        component_access_token: ThirdPartyPlatformCacheStore.new(official_account.third_party_platform).fetch_access_token
+        component_access_token: official_account.third_party_platform.access_token
       }
       resp = Faraday.get "https://api.weixin.qq.com/sns/oauth2/component/access_token?#{query_params.to_query}"
       Rails.logger.info "WechatUserAuthorizeService get_base_info resp: #{resp.body.squish}"
@@ -28,8 +28,14 @@ module WechatOpenPlatformProxy
     def refresh_auth_info(refresh_token = nil)
       return unless refresh_token.present?
 
-      query_params = { appid: official_account.app_id, grant_type: "refresh_token", refresh_token: refresh_token }
-      resp = Faraday.get "https://api.weixin.qq.com/sns/oauth2/refresh_token?#{query_params.to_query}"
+      query_params = {
+        appid: official_account.app_id,
+        grant_type: "refresh_token",
+        refresh_token: refresh_token,
+        component_appid: official_account.third_party_platform.app_id,
+        component_access_token: official_account.third_party_platform.access_token
+      }
+      resp = Faraday.get "https://api.weixin.qq.com/sns/oauth2/component/refresh_token?#{query_params.to_query}"
       Rails.logger.info "WechatUserAuthorizeService refresh_auth_info resp: #{resp.body.squish}"
 
       base_info = JSON.parse(resp.body)
