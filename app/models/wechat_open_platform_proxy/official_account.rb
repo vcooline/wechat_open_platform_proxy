@@ -42,7 +42,7 @@ module WechatOpenPlatformProxy
     private
 
       def bind_open_account
-        OfficialAccountOpenBindJob.perform_later(self.id)
+        OfficialAccountOpenBindJob.perform_later(self.id) if allow_open_bind?
       end
   end
 end
