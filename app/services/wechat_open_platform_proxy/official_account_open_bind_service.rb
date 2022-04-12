@@ -31,7 +31,8 @@ module WechatOpenPlatformProxy
       end
     end
 
-    def unbind(open_app_id)
+    def unbind(open_app_id = nil)
+      open_app_id ||= get&.app_id
       Rails.logger.info "OfficialAccountOpenBindService get reqt: #{official_account.app_id}, #{open_app_id}"
       resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/open/unbind?access_token=#{official_account.access_token}", { appid: official_account.app_id, open_appid: open_app_id }.to_json
       Rails.logger.info "OfficialAccountOpenBindService get resp: #{resp.body.squish}"
