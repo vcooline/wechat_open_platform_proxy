@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Wechat open platform proxy</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
+  <head>
+    <title>Wechat open platform proxy</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+  </head>
+  <body>
 
-  <%= stylesheet_link_tag    "wechat_open_platform_proxy/application", media: "all" %>
-</head>
-<body>
+    <%= yield %>
 
-<%= yield %>
-
-</body>
+  </body>
 </html>

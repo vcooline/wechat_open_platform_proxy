@@ -1,5 +1,7 @@
 module WechatOpenPlatformProxy
   class WechatUserAuthorizeService < OfficialAccountBaseService
+    SnapshotUserError = Class.new StandardError
+
     def get_base_info(code)
       query_params = {
         appid: official_account.app_id,
@@ -10,7 +12,10 @@ module WechatOpenPlatformProxy
       }
       resp = Faraday.get "https://api.weixin.qq.com/sns/oauth2/component/access_token?#{query_params.to_query}"
       Rails.logger.info "WechatUserAuthorizeService get_base_info resp: #{resp.body.squish}"
-      JSON.parse(resp.body)
+
+      JSON.parse(resp.body).tap do |resp_info|
+        raise SnapshotUserError if resp_info["is_snapshotuser"]&.positive?
+      end
     end
 
     def get_user_info(code)

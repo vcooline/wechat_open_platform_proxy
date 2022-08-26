@@ -1,5 +1,6 @@
 WechatOpenPlatformProxy::Engine.routes.draw do
   get "welcome/index"
+  get "welcome/snapshot_user"
   root "welcome#index"
 
   resources :third_party_platforms, param: :uid, only: [:index, :show] do
