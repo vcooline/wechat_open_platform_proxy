@@ -13,7 +13,7 @@ module WechatOpenPlatformProxy
 
       def deny_snapshot_user
         respond_to do |format|
-          format.html { redirect_to welcome_snapshot_user_path, status: :temporary_redirect }
+          format.html { redirect_to wechat_open_platform_proxy.welcome_snapshot_user_path, status: :temporary_redirect }
           format.json { render json: {error: {message: "Wechat snapshot user not allowed."}}, status: :forbidden }
         end
       end
