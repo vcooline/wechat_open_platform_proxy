@@ -3,12 +3,46 @@
   <head>
     <title>微信网页快照页模式</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <style>
+      body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4,h5, h6, i, b, textarea, button, input, select, figure, figcaption{ padding: 0; margin: 0; list-style: none; font-style: normal; text-decoration: none; border: none; font-weight: normal; font-family: 'PingFang SC'; font-style: normal; box-sizing: border-box; -webkit-tap-highlight-color:transparent; -webkit-font-smoothing: antialiased; }
+      html,body{ height: 100%; width: 100vw; font-size: 26.666vw; }
+      body { background: #1E1E1E; }
+      input,textarea { border: 0; -webkit-appearance: none; }
+      .clear:after { content:'\20'; display:block; height:0; clear:both; }
+      .clear { *zoom:1; }
+      input:-moz-placeholder,
+      input:-ms-input-placeholder,
+      input:-webkit-input-placeholder{ font-weight: 400; color: #999; }
+      *{ touch-action: auto; }
+      em { font-style: normal; }
+      ::-webkit-scrollbar { display: none; }
+
+      footer { width: 100%; position: fixed; left: 0; right: 0; bottom: 0; z-index: 1; }
+      .footer { padding: 0 0.24rem; }
+      .info { height: 3.74rem; }
+      .horn { width: 1.24rem; height: 1.06rem; position: absolute; right: 0.42rem; }
+      .horn img{ width: 1.24rem; height: 1.06rem; display: inline-block; }
+      .tip-box { position: absolute; left: 0.98rem; top: 0.7rem }
+      .click-here { width: 61%; position: relative; font-style: normal; font-weight: 600; font-size: 0.4rem; line-height: 0.56rem; color: #FE7169; }
+      .click-here::before{ content: ''; position: absolute; width: 0.75rem; height: 0.035rem; background: url(<%= image_path("wechat_open_platform_proxy/arrow1.png") %>) no-repeat center; background-size: 0.75rem 0.035rem; right: 0; }
+      .wx-tip { font-style: normal; font-weight: 500; font-size: 0.2rem; line-height: 0.28rem; color: #FFFFFF; }
+      .wx-tip::before { content: ''; position: absolute; width: 0.74rem; height: 0.065rem; background: url(<%= image_path("wechat_open_platform_proxy/arrow2.png") %>) no-repeat center; background-size: 0.74rem 0.065rem; bottom: -0.1rem; left: 0.05rem; }
+      .tip-next { width: 0.63rem; height: 0.72rem; background: url(<%= image_path("wechat_open_platform_proxy/next.png") %>) no-repeat center; background-size: 0.63rem 0.72rem; position: absolute; right: 0.54rem; bottom: 0.98rem; }
+    </style>
   </head>
   <body>
-    <div style="height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column;">
-      <h3>点击右下角 "使用完整服务"</h3>
-      <p>登录后继续参与</p>
-    </div>
+    <footer>
+      <div class="footer info">
+        <div class="horn"><%= image_tag "wechat_open_platform_proxy/horn.png", alt: "" %></div>
+        <div class="tip-box">
+          <div class="click-here">点这里</div>
+          <div class="wx-tip">登录微信使用完整服务</div>
+        </div>
+        <div class="tip-next"></div>
+      </div>
+    </footer>
   </body>
 </html>
