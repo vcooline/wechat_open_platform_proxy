@@ -235,13 +235,13 @@
 
     **Content**
 
-    `[redirect_url]?code=xxx`
+    `[redirect_url]?wechat_oauth_code=xxx`
 
 *  **Sample**
 
       Redirect `http://owx.example.com/third_party_platforms/:third_party_platform_uid/official_account_authorizations/:official_account_app_id/wechat_user_authorization/new?redirect_url=[callback_redirect_url]`
 
-      Callback `[callback_redirect_url]?code=[code]`
+      Callback `[callback_redirect_url]?wechat_oauth_code=[code]`
 
 ### Wechat user oauth authorizer info
 ------
@@ -260,7 +260,7 @@
     **Required params**
     `
     {
-      code: [string]
+      wechat_oauth_code: [string]
     }
     `
 
@@ -288,20 +288,20 @@
 
       ```json
       {
-      "access_token": "FILLER",
-      "expires_in": 7200,
-      "refresh_token": "FILLER",
-      "openid": "FILLER",
-      "scope": "snsapi_userinfo",
-      "unionid": "FILLER",
-      "nickname": "FILLER",
-      "sex": 1,
-      "language": "en",
-      "city": "松江",
-      "province": "上海",
-      "country": "中国",
-      "headimgurl": "FILLER",
-      "privilege": []
+        "access_token": "FILLER",
+        "expires_in": 7200,
+        "refresh_token": "FILLER",
+        "openid": "FILLER",
+        "scope": "snsapi_userinfo",
+        "unionid": "FILLER",
+        "nickname": "FILLER",
+        "sex": 1,
+        "language": "en",
+        "city": "松江",
+        "province": "上海",
+        "country": "中国",
+        "headimgurl": "FILLER",
+        "privilege": []
       }
       ```
 
