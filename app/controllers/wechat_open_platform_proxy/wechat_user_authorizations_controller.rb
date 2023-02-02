@@ -1,15 +1,13 @@
-require_dependency "wechat_open_platform_proxy/application_controller"
-
 module WechatOpenPlatformProxy
   class WechatUserAuthorizationsController < ApplicationController
     before_action :set_third_party_platform, :set_official_account
 
     def new
-      redirect_url = params[:redirect_url] || request.referrer
+      redirect_url = params[:redirect_url] || request.referer
       authorize_params = {
         component_appid: @third_party_platform.app_id,
         appid: @official_account.app_id,
-        redirect_uri: third_party_platform_official_account_wechat_user_authorization_url(@third_party_platform, @official_account, scope: params[:scope], redirect_url: redirect_url),
+        redirect_uri: third_party_platform_official_account_wechat_user_authorization_url(@third_party_platform, @official_account, scope: params[:scope], redirect_url:),
         response_type: "code",
         scope: params[:scope].presence || "snsapi_base", # snsapi_userinfo
         state: params[:state]

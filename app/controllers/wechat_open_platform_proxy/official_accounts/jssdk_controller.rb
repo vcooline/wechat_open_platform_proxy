@@ -1,5 +1,3 @@
-require_dependency "wechat_open_platform_proxy/application_controller"
-
 module WechatOpenPlatformProxy
   class OfficialAccounts::JssdkController < OfficialAccounts::BaseController
     before_action :check_remote_ip_whitelisted, only: [:wx_config, :card_wx_config, :card_sign]
@@ -13,10 +11,11 @@ module WechatOpenPlatformProxy
     end
 
     def card_sign
-      render json: {card_sign: OfficialAccountJssdkService.new(@official_account).card_sign(card_sign_params.to_h)}, status: :ok
+      render json: { card_sign: OfficialAccountJssdkService.new(@official_account).card_sign(card_sign_params.to_h) }, status: :ok
     end
 
     private
+
       def config_params
         params.fetch(:config_params, {}).permit(:url)
       end

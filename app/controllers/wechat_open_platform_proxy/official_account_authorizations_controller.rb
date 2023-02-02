@@ -1,16 +1,14 @@
-require_dependency "wechat_open_platform_proxy/application_controller"
-
 module WechatOpenPlatformProxy
   class OfficialAccountAuthorizationsController < ApplicationController
     before_action :set_third_party_platform
     after_action :delete_pre_auth_code, only: [:show]
 
     def new
-      redirect_url = params[:redirect_url] || request.referrer
+      redirect_url = params[:redirect_url] || request.referer
       authorize_params = {
         component_appid: @third_party_platform.app_id,
         pre_auth_code: ThirdPartyPlatformCacheStore.new(@third_party_platform).fetch_pre_auth_code(force_renew: params[:force_renew].present?),
-        redirect_uri: third_party_platform_official_account_authorization_url(@third_party_platform, redirect_url: redirect_url),
+        redirect_uri: third_party_platform_official_account_authorization_url(@third_party_platform, redirect_url:),
         auth_type: params[:auth_type].presence || 3
       }
       @authorize_url = "https://mp.weixin.qq.com/cgi-bin/componentloginpage?#{authorize_params.to_query}#wechat_redirect"
@@ -34,6 +32,7 @@ module WechatOpenPlatformProxy
     end
 
     private
+
       def set_third_party_platform
         @third_party_platform = ThirdPartyPlatform.find_by!(uid: params[:third_party_platform_uid])
       end

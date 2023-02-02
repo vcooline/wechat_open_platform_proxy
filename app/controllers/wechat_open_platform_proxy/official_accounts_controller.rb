@@ -1,5 +1,3 @@
-require_dependency "wechat_open_platform_proxy/application_controller"
-
 module WechatOpenPlatformProxy
   class OfficialAccountsController < ApplicationController
     before_action :set_third_party_platform
@@ -10,12 +8,13 @@ module WechatOpenPlatformProxy
     end
 
     def show
-      @official_account = OfficialAccountAuthorizeService.new(@third_party_platform).refresh_account_info(params[:app_id]) if (params[:force_refresh].present? || @official_account.nil?)
+      @official_account = OfficialAccountAuthorizeService.new(@third_party_platform).refresh_account_info(params[:app_id]) if params[:force_refresh].present? || @official_account.nil?
     rescue OfficialAccountAuthorizeService::AuthorizerInfoError => e
-      render json: JSON.load(e.message), status: :unauthorized
+      render json: JSON.parse(e.message), status: :unauthorized
     end
 
     private
+
       def set_third_party_platform
         @third_party_platform = ThirdPartyPlatform.find_by!(uid: params[:third_party_platform_uid])
       end

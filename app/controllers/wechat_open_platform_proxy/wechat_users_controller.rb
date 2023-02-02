@@ -1,5 +1,3 @@
-require_dependency "wechat_open_platform_proxy/application_controller"
-
 module WechatOpenPlatformProxy
   class WechatUsersController < ApplicationController
     before_action :set_third_party_platform, :set_official_account
@@ -10,6 +8,7 @@ module WechatOpenPlatformProxy
     end
 
     private
+
       def set_third_party_platform
         @third_party_platform = ThirdPartyPlatform.find_by!(uid: params[:third_party_platform_uid])
       end
