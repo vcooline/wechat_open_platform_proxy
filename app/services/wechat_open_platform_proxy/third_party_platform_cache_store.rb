@@ -25,6 +25,7 @@ module WechatOpenPlatformProxy
     end
 
     private
+
       def read_component_verify_ticket
         Rails.cache.read(verify_ticket_cache_key)
       end
@@ -39,9 +40,9 @@ module WechatOpenPlatformProxy
         Rails.logger.info "ThirdPartyPlatformCacheStore create_pre_auth_code(#{third_party_platform.app_id}) resp: #{resp.body.squish}"
 
         resp_info = JSON.parse(resp.body)
-        if resp_info['errcode'].to_i.zero? && resp_info["pre_auth_code"].present? && resp_info["expires_in"].present?
-          Rails.cache.fetch(pre_auth_code_cache_key, expires_in: (resp_info["expires_in"].to_i.seconds - 5.minutes), race_condition_ttl: 5) { resp_info["pre_auth_code"] }
-        end
+        return unless resp_info['errcode'].to_i.zero? && resp_info["pre_auth_code"].present? && resp_info["expires_in"].present?
+
+        Rails.cache.fetch(pre_auth_code_cache_key, expires_in: (resp_info["expires_in"].to_i.seconds - 5.minutes), race_condition_ttl: 5) { resp_info["pre_auth_code"] }
       end
 
       def read_access_token
@@ -62,9 +63,9 @@ module WechatOpenPlatformProxy
         Rails.logger.info "ThirdPartyPlatformCacheStore renew_access_token(#{third_party_platform.app_id}) resp: #{resp.body.squish}"
 
         resp_info = JSON.parse(resp.body)
-        if resp_info['errcode'].to_i.zero? && resp_info["component_access_token"].present? && resp_info["expires_in"].present?
-          Rails.cache.fetch(access_token_cache_key, expires_in: (resp_info["expires_in"].to_i.seconds - 5.minutes), race_condition_ttl: 5) { resp_info["component_access_token"] }
-        end
+        return unless resp_info['errcode'].to_i.zero? && resp_info["component_access_token"].present? && resp_info["expires_in"].present?
+
+        Rails.cache.fetch(access_token_cache_key, expires_in: (resp_info["expires_in"].to_i.seconds - 5.minutes), race_condition_ttl: 5) { resp_info["component_access_token"] }
       end
 
       def verify_ticket_cache_key

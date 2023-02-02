@@ -17,9 +17,11 @@ module WechatOpenPlatformProxy
 
     def show
       if params[:auth_code].present?
-        redirect_url = params[:redirect_url].present? ?
-          url_with_additional_params(params[:redirect_url], wechat_open_auth_code: params[:auth_code], wechat_open_expires_in: params[:expires_in]) :
-          account_info_third_party_platform_official_account_authorization_path(@third_party_platform, auth_code: params[:auth_code])
+        redirect_url = if params[:redirect_url].present?
+                         url_with_additional_params(params[:redirect_url], wechat_open_auth_code: params[:auth_code], wechat_open_expires_in: params[:expires_in])
+                       else
+                         account_info_third_party_platform_official_account_authorization_path(@third_party_platform, auth_code: params[:auth_code])
+                       end
         redirect_to redirect_url, allow_other_host: true
       else
         logger.error "OfficialAccount authorize failed with callback params: #{params.to_json}"

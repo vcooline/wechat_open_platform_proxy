@@ -1,7 +1,6 @@
 module WechatOpenPlatformProxy
   class VerifyFile < ApplicationRecord
-
     validates :name, presence: true, uniqueness: true
-    validates_presence_of :content
+    validates :content, presence: true
   end
 end

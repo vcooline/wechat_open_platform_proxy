@@ -18,6 +18,7 @@ module WechatOpenPlatformProxy
     end
 
     private
+
       def verify_message(original_xml, timestamp, nonce, msg_signature)
         msg_encrypt = Hash.from_xml(original_xml)["xml"]["Encrypt"]
         raise InvalidMessageSignatureError unless Digest::SHA1.hexdigest([third_party_platform.messages_checking_token, timestamp, nonce, msg_encrypt].sort.join).eql?(msg_signature)

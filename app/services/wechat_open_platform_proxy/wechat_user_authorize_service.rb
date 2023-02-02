@@ -5,7 +5,7 @@ module WechatOpenPlatformProxy
     def get_base_info(code)
       query_params = {
         appid: official_account.app_id,
-        code: code,
+        code:,
         grant_type: "authorization_code",
         component_appid: official_account.third_party_platform.app_id,
         component_access_token: official_account.third_party_platform.access_token
@@ -25,12 +25,12 @@ module WechatOpenPlatformProxy
     end
 
     def refresh_auth_info(refresh_token = nil)
-      return unless refresh_token.present?
+      return if refresh_token.blank?
 
       query_params = {
         appid: official_account.app_id,
         grant_type: "refresh_token",
-        refresh_token: refresh_token,
+        refresh_token:,
         component_appid: official_account.third_party_platform.app_id,
         component_access_token: official_account.third_party_platform.access_token
       }
@@ -48,15 +48,15 @@ module WechatOpenPlatformProxy
 
     def get_paid_union_id(open_id:, transaction_id: "", mch_id: "", out_trade_no: "")
       request_params = if transaction_id.present?
-                        {openid: open_id, transaction_id: transaction_id}
-                      else
-                        {openid: open_id, mch_id: mch_id, out_trade_no: out_trade_no}
-                      end
+                         { openid: open_id, transaction_id: }
+                       else
+                         { openid: open_id, mch_id:, out_trade_no: }
+                       end
       Rails.logger.info "WechatOpenPlatformProxy::WechatUserAuthorizeService get_paid_union_id reqt: #{request_params.to_json}"
       resp = Faraday.get "https://api.weixin.qq.com/wxa/getpaidunionid?access_token=#{official_account.access_token}", request_params
       Rails.logger.info "WechatOpenPlatformProxy::WechatUserAuthorizeService get_paid_union_id resp: #{resp.body.squish}"
 
-      JSON.parse(resp.body)#.dig("unionid")
+      JSON.parse(resp.body) # .dig("unionid")
     end
 
     private

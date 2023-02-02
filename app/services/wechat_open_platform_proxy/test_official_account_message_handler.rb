@@ -13,18 +13,17 @@ module WechatOpenPlatformProxy
         handle_text_message(message_params)
       elsif message_params["MsgType"] == "text" && message_params["Content"] =~ /QUERY_AUTH_CODE/ # 公众号检测步骤3: 客服消息
         handle_customer_service_message(message_params) # 客服消息
-      else
-        nil # 响应空字符串
       end
     end
 
     def handle_mini_program_message(message_params)
-      if message_params["MsgType"] == "text" && message_params["Content"] =~ /QUERY_AUTH_CODE/ # 小程序检测步骤1: 客服消息
-        handle_customer_service_message(message_params) # 客服消息
-      end
+      return unless message_params["MsgType"] == "text" && message_params["Content"] =~ /QUERY_AUTH_CODE/ # 小程序检测步骤1: 客服消息
+
+      handle_customer_service_message(message_params) # 客服消息
     end
 
     private
+
       def handle_event_message(message_params)
         <<~END_TEXT_AREA
           <xml>
@@ -54,7 +53,7 @@ module WechatOpenPlatformProxy
         # 使用授权码换取公众号的授权信息
         authorizer = OfficialAccountAuthorizeService.new(official_account.third_party_platform).get_account_info(auth_code)
         # 调用发送客服消息api
-        OfficialAccountCustomerServiceMessageService.new(authorizer).send_message(touser: message_params["FromUserName"], msgtype: "text", text: {content: "#{auth_code}_from_api"})
+        OfficialAccountCustomerServiceMessageService.new(authorizer).send_message(touser: message_params["FromUserName"], msgtype: "text", text: { content: "#{auth_code}_from_api" })
 
         nil
       end

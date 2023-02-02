@@ -16,7 +16,6 @@ module WechatOpenPlatformProxy
         ThirdPartyPlatformCacheStore.new(third_party_platform).write_component_verify_ticket(message_params["ComponentVerifyTicket"])
       when "unauthorized"
         OfficialAccount.find_by(app_id: message_params["AuthorizerAppid"])&.destroy
-      else
       end
     end
   end

@@ -3,6 +3,6 @@ module WechatOpenPlatformProxy
     belongs_to :official_account
 
     validates :official_account, presence: true, uniqueness: true
-    validates_presence_of :name
+    validates :name, presence: true
   end
 end

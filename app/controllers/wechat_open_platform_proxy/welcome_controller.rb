@@ -1,7 +1,6 @@
 module WechatOpenPlatformProxy
   class WelcomeController < ApplicationController
-    def index
-    end
+    def index; end
 
     def snapshot_user
       render layout: false

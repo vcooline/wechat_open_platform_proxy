@@ -4,8 +4,8 @@ module WechatOpenPlatformProxy
     belongs_to :open_account, optional: true
     has_one :message_handler, dependent: :destroy
 
-    validates_uniqueness_of :app_id, scope: :third_party_platform, allow_nil: false
-    validates_uniqueness_of :original_id, scope: :third_party_platform, allow_nil: true
+    validates :app_id, uniqueness: { scope: :third_party_platform, allow_nil: false }
+    validates :original_id, uniqueness: { scope: :third_party_platform, allow_nil: true }
 
     scope :official_account, -> { where(mini_program_info: nil) }
     scope :mini_program, -> { where.not(mini_program_info: nil) }

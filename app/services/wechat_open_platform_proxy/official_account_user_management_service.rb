@@ -1,7 +1,6 @@
 module WechatOpenPlatformProxy
   class OfficialAccountUserManagementService < OfficialAccountBaseService
-
-    def user_list(next_openid=nil)
+    def user_list(next_openid = nil)
       Rails.logger.info "OfficialAccountUserManagementService user list reqt: #{next_openid}"
       resp = Faraday.get "https://api.weixin.qq.com/cgi-bin/user/get?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}&next_openid=#{next_openid}"
       Rails.logger.info "OfficialAccountUserManagementService user list resp: #{resp.body.squish}"
@@ -21,6 +20,5 @@ module WechatOpenPlatformProxy
       Rails.logger.info "OfficialAccountUserManagementService user info resp: #{resp_body.squish}"
       JSON.parse(resp_body)
     end
-
   end
 end

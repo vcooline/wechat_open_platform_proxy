@@ -18,7 +18,7 @@ module WechatOpenPlatformProxy
 
     def bind(open_app_id = nil)
       open_app_id ||= get&.app_id || create&.app_id
-      return unless open_app_id.present?
+      return if open_app_id.blank?
 
       Rails.logger.info "OfficialAccountOpenBindService bind reqt: #{official_account.app_id}, #{open_app_id}"
       resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/qrcode/bind?access_token=#{official_account.access_token}", { appid: official_account.app_id, open_appid: open_app_id }.to_json
@@ -57,7 +57,7 @@ module WechatOpenPlatformProxy
     private
 
       def save_binding(open_account)
-        official_account.update(open_account: open_account)
+        official_account.update(open_account:)
       end
   end
 end

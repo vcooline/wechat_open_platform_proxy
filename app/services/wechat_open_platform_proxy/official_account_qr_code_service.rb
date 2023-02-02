@@ -11,7 +11,7 @@ module WechatOpenPlatformProxy
       resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", qr_code_params.to_json
       Rails.logger.info "OfficialAccountQrCodeService create_qrcode resp: #{resp.body.squish}"
 
-      resp.tap { |r| GlobalApiErrorService.new(official_account).perform(r) if JSON.load(r.body)&.dig("errcode").to_i > 0 }
+      resp.tap { |r| GlobalApiErrorService.new(official_account).perform(r) if JSON.parse(r.body)&.dig("errcode").to_i.positive? }
     end
   end
 end

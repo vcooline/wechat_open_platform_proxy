@@ -15,7 +15,7 @@ module WechatOpenPlatformProxy
       }.tap { |conf| conf.merge!(signature: Digest::SHA1.hexdigest("jsapi_ticket=#{jsapi_ticket}&noncestr=#{conf[:nonceStr]}&timestamp=#{conf[:timestamp]}&url=#{url}")) }
     end
 
-    def card_sign(options={})
+    def card_sign(options = {})
       wx_card_ticket = OfficialAccountCacheStore.new(official_account).fetch_wx_card_ticket
       Digest::SHA1.hexdigest([wx_card_ticket, *options.values].map(&:to_s).sort.join)
     end
@@ -26,11 +26,11 @@ module WechatOpenPlatformProxy
     # 3.signature中的timestamp，nonce字段和card_ext中的timestamp，nonce_str字段必须保持一致。
     def card_ext_config(card_id:, code:, openid:)
       {
-        code: code,
-        openid: openid,
+        code:,
+        openid:,
         timestamp: Time.now.to_i,
-        nonce_str: SecureRandom.base58,
-      }.tap { |conf| conf.merge!(signature: card_sign(timestamp: conf[:timestamp], card_id: card_id, code: code, openid: openid, nonce_str: conf[:nonce_str])) }
+        nonce_str: SecureRandom.base58
+      }.tap { |conf| conf.merge!(signature: card_sign(timestamp: conf[:timestamp], card_id:, code:, openid:, nonce_str: conf[:nonce_str])) }
     end
   end
 end

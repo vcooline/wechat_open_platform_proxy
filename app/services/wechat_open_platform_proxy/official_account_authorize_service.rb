@@ -21,6 +21,7 @@ module WechatOpenPlatformProxy
     end
 
     private
+
       def get_authorization_info(auth_code)
         request_params = { component_appid: third_party_platform.app_id, authorization_code: auth_code }
         resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=#{ThirdPartyPlatformCacheStore.new(third_party_platform).fetch_access_token}", request_params.to_json
@@ -41,6 +42,7 @@ module WechatOpenPlatformProxy
 
         resp_info = JSON.parse(resp.body)
         raise AuthorizerInfoError, resp.body unless resp_info["errcode"].to_i.zero?
+
         resp_info
       end
 

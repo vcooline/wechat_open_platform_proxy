@@ -23,7 +23,7 @@ module WechatOpenPlatformProxy
     end
 
     def create_qrcode(card_id)
-      qrcode_params = {action_name: "QR_CARD", action_info: {card: {card_id: card_id}}}
+      qrcode_params = { action_name: "QR_CARD", action_info: { card: { card_id: } } }
       Rails.logger.info "OfficialAccountMemberCardService create_qrcode reqt: #{qrcode_params.to_json}"
       resp = Faraday.post "https://api.weixin.qq.com/card/qrcode/create?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", qrcode_params.to_json
       Rails.logger.info "OfficialAccountMemberCardService create_qrcode resp: #{resp.body.squish}"
@@ -44,6 +44,7 @@ module WechatOpenPlatformProxy
     end
 
     private
+
       def api_client
         Faraday.new("https://api.weixin.qq.com") do |conn|
           conn.request :multipart

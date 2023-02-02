@@ -12,11 +12,11 @@ module WechatOpenPlatformProxy
     # 缩略图（thumb）：64KB，支持JPG格式
     def upload_temporary_asset(asset_params)
       file_path = asset_params[:file].is_a?(String) ? asset_params[:file] : asset_params[:file].path
-      mime_type = asset_params[:mime_type].presence || MIME::Types.of(file_path).detect{|mt| mt.media_type.in?(%w(image voice video thumb))}.to_s
+      mime_type = asset_params[:mime_type].presence || MIME::Types.of(file_path).detect { |mt| mt.media_type.in?(%w[image voice video thumb]) }.to_s
       type = asset_params[:type].presence || MIME::Type.new(mime_type).media_type
 
       Rails.logger.info "OfficialAccountAssetManagementService upload_temporary_asset reqt: #{file_path}|#{type}|#{mime_type}"
-      payload = { type: type, media: Faraday::Multipart::FilePart.new(file_path, mime_type) }
+      payload = { type:, media: Faraday::Multipart::FilePart.new(file_path, mime_type) }
       resp = api_client.post "/cgi-bin/media/upload?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", payload
       Rails.logger.info "OfficialAccountAssetManagementService upload_temporary_asset resp: #{resp.body.squish}"
 
@@ -26,7 +26,7 @@ module WechatOpenPlatformProxy
     def download_temporary_asset(media_id)
       query_params = {
         access_token: OfficialAccountCacheStore.new(official_account).fetch_access_token,
-        media_id: media_id
+        media_id:
       }
       Rails.logger.info "OfficialAccountAssetManagementService download_temporary_asset reqt: #{media_id}"
       resp = Faraday.get "https://api.weixin.qq.com/cgi-bin/media/get?#{query_params.to_query}"
