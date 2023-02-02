@@ -243,13 +243,13 @@
 
       Callback `[callback_redirect_url]?wechat_oauth_code=[code]`
 
-### Wechat user oauth authorizer info
+### Wechat user oauth authorizer info (by POST)
 ------
 * **URL**
-    /third_party_platforms/:third_party_platform_uid/official_accounts/:official_account_app_id/wechat_user_authorization/[base_info|user_info]
+    /third_party_platforms/:third_party_platform_uid/official_accounts/:official_account_app_id/wechat_user_authorization
 
 * **Method**
-    `GET`
+    `POST`
 
 * **URL params**
 
@@ -258,14 +258,24 @@
 * **Data params**
 
     **Required params**
+
     `
     {
-      wechat_oauth_code: [string]
+      wechat_user_authorization: {
+        wechat_oauth_code: [string]
+      }
     }
     `
 
     **Optional params**
-    None
+
+    `
+    {
+      wechat_user_authorization: {
+        wechat_oauth_scope: [string]
+      }
+    }
+    `
 
 * **Success Response**
 
@@ -304,6 +314,39 @@
         "privilege": []
       }
       ```
+
+### Wechat user oauth authorizer info (by GET)
+------
+* **URL**
+    /third_party_platforms/:third_party_platform_uid/official_accounts/:official_account_app_id/wechat_user_authorization/[base_info|user_info]
+
+* **Method**
+    `GET`
+
+* **URL params**
+
+    None
+
+* **Data params**
+
+    **Required params**
+    `
+    {
+      wechat_oauth_code: [string]
+    }
+    `
+
+    **Optional params**
+    None
+
+* **Success Response**
+
+    * **Code**
+      200
+
+      **Content**
+
+      同上
 
 ### Wechat user info
 * **URL**

@@ -27,6 +27,14 @@ module WechatOpenPlatformProxy
       end
     end
 
+    def create
+      wechat_oauth_scope = authorization_params[:wechat_oauth_scope].presence || "snsapi_base"
+      wechat_user_info = (authorization_params[:wechat_oauth_code].presence || params[:code])
+        .then(&method(wechat_oauth_scope == "snsapi_userinfo" ? :get_user_info : :get_base_info))
+
+      render json: wechat_user_info
+    end
+
     def base_info
       render json: WechatUserAuthorizeService.new(@official_account).get_base_info(params[:wechat_oauth_code].presence || params[:code])
     end
@@ -43,6 +51,10 @@ module WechatOpenPlatformProxy
 
       def set_official_account
         @official_account = @third_party_platform.official_accounts.find_by!(app_id: params[:official_account_app_id])
+      end
+
+      def authorization_params
+        params.fetch(:wechat_user_authorization, {}).permit(:wechat_oauth_code, :wechat_oauth_scope)
       end
   end
 end
