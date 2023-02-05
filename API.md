@@ -262,7 +262,7 @@
     `
     {
       wechat_user_authorization: {
-        wechat_oauth_code: [string]
+        code: [string]
       }
     }
     `
@@ -272,7 +272,7 @@
     `
     {
       wechat_user_authorization: {
-        wechat_oauth_scope: [string]
+        scope: [string]
       }
     }
     `

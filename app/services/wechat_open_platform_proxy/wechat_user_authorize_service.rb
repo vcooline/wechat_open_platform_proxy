@@ -24,6 +24,10 @@ module WechatOpenPlatformProxy
       base_info.merge(user_info)
     end
 
+    def get_authorized_info(code, scope: :snsapi_base)
+      scope == "snsapi_userinfo" ? get_user_info(code) : get_base_info(code)
+    end
+
     def refresh_auth_info(refresh_token = nil)
       return if refresh_token.blank?
 
