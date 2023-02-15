@@ -69,15 +69,15 @@ module WechatOpenPlatformProxy
       end
 
       def verify_ticket_cache_key
-        "component_verify_ticket:#{third_party_platform.app_id}"
+        "wxopen:third_party_platform:#{third_party_platform.id}:component_verify_ticket"
       end
 
       def pre_auth_code_cache_key
-        "pre_auth_code:#{third_party_platform.app_id}"
+        "wxopen:third_party_platform:#{third_party_platform.id}:pre_auth_code"
       end
 
       def access_token_cache_key
-        "component_access_token:#{third_party_platform.app_id}"
+        "wxopen:third_party_platform:#{third_party_platform.id}:component_access_token"
       end
   end
 end
