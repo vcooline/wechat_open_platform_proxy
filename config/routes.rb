@@ -30,5 +30,11 @@ WechatOpenPlatformProxy::Engine.routes.draw do
     end
   end
 
+  resources :website_apps, param: :app_id, only: [:show] do
+    scope module: :website_apps do
+      resource :wechat_user_authorization, only: [:new, :show]
+    end
+  end
+
   get ':wechat_open_platform_verify_file', to: "welcome#verify_file", constraints: { wechat_open_platform_verify_file: /\d{10}\.txt/ }
 end

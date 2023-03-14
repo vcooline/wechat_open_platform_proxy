@@ -3,7 +3,7 @@ module WechatOpenPlatformProxy
     before_action :set_third_party_platform, :set_official_account
 
     def new
-      redirect_url = params[:redirect_url] || request.referer
+      redirect_url = params[:redirect_url].presence || request.referer
       authorize_params = {
         component_appid: @third_party_platform.app_id,
         appid: @official_account.app_id,
