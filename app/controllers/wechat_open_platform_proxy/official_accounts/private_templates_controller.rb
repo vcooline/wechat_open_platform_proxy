@@ -1,5 +1,5 @@
 module WechatOpenPlatformProxy
-  class OfficialAccounts::TemplatedMessagesController < OfficialAccounts::BaseController
+  class OfficialAccounts::PrivateTemplatesController < OfficialAccounts::BaseController
     before_action :set_private_template, only: [:show]
 
     def index
