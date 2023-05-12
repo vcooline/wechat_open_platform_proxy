@@ -15,6 +15,7 @@ WechatOpenPlatformProxy::Engine.routes.draw do
     resources :official_accounts, param: :app_id, only: [:index, :show] do
       scope module: :official_accounts do
         resources :messages, only: [:create]
+        resources :private_templates, only: [:index, :show], defaults: { format: :json }
         resources :templated_messages, only: [:create], defaults: { format: :json }
         resources :qr_codes, only: [:create], defaults: { format: :json }
         get "jssdk/wx_config", defaults: { format: :json }
