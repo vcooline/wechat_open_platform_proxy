@@ -11,14 +11,14 @@ module WechatOpenPlatformProxy
       resp = Faraday.post "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}", message_params.to_json
       Rails.logger.info "OfficialAccountTemplatedMessageService send_message resp: #{resp.body.squish}"
 
-      resp
+      resp.tap { |r| GlobalApiErrorService.new(official_account).perform(r) if JSON.parse(r.body)&.dig("errcode").to_i.positive? }
     end
 
     def template_list
       resp = Faraday.get "https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}"
       Rails.logger.info "OfficialAccountTemplatedMessageService template_list resp: #{resp.body.squish}"
 
-      resp
+      resp.tap { |r| GlobalApiErrorService.new(official_account).perform(r) if JSON.parse(r.body)&.dig("errcode").to_i.positive? }
     end
 
     def apply_template(short_id)
