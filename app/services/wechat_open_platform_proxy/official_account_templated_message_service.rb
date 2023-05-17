@@ -16,7 +16,8 @@ module WechatOpenPlatformProxy
 
     def template_list
       resp = Faraday.get "https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=#{OfficialAccountCacheStore.new(official_account).fetch_access_token}"
-      Rails.logger.info "OfficialAccountTemplatedMessageService template_list resp: #{resp.body.squish}"
+      resp_body = safe_response_body(resp)
+      Rails.logger.info "OfficialAccountTemplatedMessageService template_list resp: #{resp_body.squish}"
 
       resp.tap { |r| GlobalApiErrorService.new(official_account).perform(r) if JSON.parse(r.body)&.dig("errcode").to_i.positive? }
     end
