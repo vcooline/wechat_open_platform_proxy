@@ -1,0 +1,10 @@
+---
+zh-CN:
+  wechat_open_platform_proxy:
+    filler: "filler"
+  activerecord:
+    models:
+      wechat_open_platform_proxy/official_account: "微信公众号"
+    attributes:
+      wechat_open_platform_proxy/official_account:
+        nick_name: "公众号名称"

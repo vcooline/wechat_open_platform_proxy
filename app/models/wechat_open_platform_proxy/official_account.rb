@@ -1,5 +1,7 @@
 module WechatOpenPlatformProxy
   class OfficialAccount < ApplicationRecord
+    has_one_attached :qrcode
+
     belongs_to :third_party_platform
     belongs_to :open_account, optional: true
     has_one :message_handler, dependent: :destroy
@@ -20,9 +22,10 @@ module WechatOpenPlatformProxy
       nick_name || app_id || original_id
     end
 
-    def is_mini_program?
+    def mini_program?
       mini_program_info.present?
     end
+    alias_method :is_mini_program?, :mini_program?
 
     def allow_oauth?
       service_type_info&.dig("id").eql?(2) && verify_type_info&.dig("id").eql?(0)

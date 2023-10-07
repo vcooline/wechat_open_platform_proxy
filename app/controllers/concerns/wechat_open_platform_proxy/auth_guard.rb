@@ -50,8 +50,8 @@ module WechatOpenPlatformProxy
         nil
       end
 
-      def check_remote_ip_whitelisted
-        return if request.remote_ip.in?(ENVConfig.remote_ip_whitelist.to_s.split(","))
+      def check_remote_ip_whitelisted # allow list / deny list
+        return if ENV.fetch("remote_ip_whitelist", "").then { |list| list.blank? || request.remote_ip.in?(list.split(%([^\d\.]+))) }
 
         logger.error "remote ip not in whitelist: #{request.remote_ip}"
         raise NotAllowedRemoteIpError, "remote ip not in whitelist: #{request.remote_ip}"
